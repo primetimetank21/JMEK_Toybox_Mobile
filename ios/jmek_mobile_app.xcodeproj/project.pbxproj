@@ -18,6 +18,7 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* jmek_mobile_appTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* jmek_mobile_appTests.m */; };
+		5C77975F2367967100549632 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5C77975E2367967000549632 /* GoogleService-Info.plist */; };
 		CA917F95A6BF76BBB597614F /* libPods-jmek_mobile_appTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82A6120B3999579BB7CAE22A /* libPods-jmek_mobile_appTests.a */; };
 		F9F07D3F42BE2830AD16DC38 /* libPods-jmek_mobile_app-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7382572156575057C4E50C17 /* libPods-jmek_mobile_app-tvOS.a */; };
 /* End PBXBuildFile section */
@@ -55,6 +56,7 @@
 		2D02E47B1E0B4A5D006451C7 /* jmek_mobile_app-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "jmek_mobile_app-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* jmek_mobile_app-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "jmek_mobile_app-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		39D14790CD2E6A6FB1682C27 /* Pods-jmek_mobile_appTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-jmek_mobile_appTests.release.xcconfig"; path = "Target Support Files/Pods-jmek_mobile_appTests/Pods-jmek_mobile_appTests.release.xcconfig"; sourceTree = "<group>"; };
+		5C77975E2367967000549632 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6045969FC028F4576CDFF382 /* Pods-jmek_mobile_app.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-jmek_mobile_app.release.xcconfig"; path = "Target Support Files/Pods-jmek_mobile_app/Pods-jmek_mobile_app.release.xcconfig"; sourceTree = "<group>"; };
 		7382572156575057C4E50C17 /* libPods-jmek_mobile_app-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-jmek_mobile_app-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		82A6120B3999579BB7CAE22A /* libPods-jmek_mobile_appTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-jmek_mobile_appTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -130,6 +132,7 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
+				5C77975E2367967000549632 /* GoogleService-Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
@@ -194,7 +197,6 @@
 				EED35D978E3AB27BAC580F97 /* Pods-jmek_mobile_appTests.debug.xcconfig */,
 				39D14790CD2E6A6FB1682C27 /* Pods-jmek_mobile_appTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -308,6 +310,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -338,6 +341,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				5C77975F2367967100549632 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

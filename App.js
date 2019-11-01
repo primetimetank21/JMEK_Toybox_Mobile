@@ -17,22 +17,16 @@ import {
 } from 'react-native';
 
 import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
+  Colors
 } from 'react-native/Libraries/NewAppScreen';
 
 class App extends React.Component {
   render() {
 
-  
   return (
-    <View style={{ flex:1 }}>
-      <StatusBar barStyle="dark-content" />
+    <View style={{ flex:1, alignItems: 'center' }}>
       <SafeAreaView>
-        <Text>Hello World!</Text>
+        <Text style={{ color:'red' }}>Hello World!!</Text>
       </SafeAreaView>
       </View>
   );
