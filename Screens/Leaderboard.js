@@ -1,11 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
 import React from 'react';
 import {
   SafeAreaView,
@@ -13,6 +5,7 @@ import {
   ScrollView,
   View,
   Text,
+  Button,
   StatusBar,
 } from 'react-native';
 
@@ -20,13 +13,15 @@ import {
   Colors
 } from 'react-native/Libraries/NewAppScreen';
 
-class App extends React.Component {
+class LeaderboardScreen extends React.Component {
   render() {
 
   return (
     <View style={{ flex:1, alignItems: 'center' }}>
-      <SafeAreaView>
-        <Text style={{ color:'red' }}>Hello World!!</Text>
+      <SafeAreaView style={{ alignItems:'center' }}>
+        <Text style={{ color:'red' }}>Leaderboard Screen</Text>
+        <Button title='To Home' onPress={() =>  this.props.navigation.navigate('Home')} />
+
       </SafeAreaView>
       </View>
   );
@@ -72,4 +67,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default LeaderboardScreen;
