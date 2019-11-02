@@ -7,6 +7,10 @@ target 'jmek_mobile_app' do
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
   # add the Firebase pod for Google Analytics
   pod 'Firebase/Analytics'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Core'
+  pod 'Firebase/Storage'
+  pod 'Firebase/Firestore'
   # add pods for any other desired Firebase products
   # https://firebase.google.com/docs/ios/setup#available-pods
   pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
@@ -44,6 +48,7 @@ target 'jmek_mobile_app' do
   end
 
   use_native_modules!
+  inherit! :search_paths
 end
 
 target 'jmek_mobile_app-tvOS' do
