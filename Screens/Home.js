@@ -5,9 +5,14 @@ import {
   ScrollView,
   View,
   Text,
+  Alert,
   Button,
   StatusBar,
 } from 'react-native';
+
+import * as firebase from 'firebase';
+import 'firebase/firestore';
+
 
 import {
   Colors
@@ -20,7 +25,7 @@ class HomeScreen extends React.Component {
     <View style={{ flex:1, alignItems: 'center' }}>
       <SafeAreaView style={{ alignItems:'center' }}>
         <Text style={{ color:'red' }}>Home Screen</Text>
-        <Button title='To Login' onPress={() =>  this.props.navigation.navigate('Login')} />
+        <Button title='Logout' onPress={() =>  firebase.auth().signOut().then(this.props.navigation.replace('Login')).then(() => {Alert.alert("Signed out!")}) } />
         <Button title='To Leaderboard' onPress={() =>  this.props.navigation.navigate('Leaderboard')} />
         <Button title='To GameType' onPress={() =>  this.props.navigation.navigate('GameType')} />
       </SafeAreaView>
