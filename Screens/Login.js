@@ -34,39 +34,47 @@ import {
 class LoginScreen extends React.Component {
 
   constructor(props) {
-    
+
     super(props);
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      count: 0
     }
+
   }
 
   SignUp = (email, password) => {
     try {
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then(user => {
-          console.log(user);
-        });
+      if (this.state.username === '' || this.state.password === '') {
+        Alert.alert("Please fill in all the appropriate fields.");
+      }
+      firebase.auth().createUserWithEmailAndPassword(email, password).then(user => {
+        firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).set({
+          username: this.state.username,
+          password: this.state.password
+        })
+        console.log(user);
+      });
     } catch (error) {
+      Alert.alert(error.toString(error));
       console.log(error.toString(error));
     }
   };
 
-   
+
 
   componentDidMount() {
+
     firebase.auth().onAuthStateChanged(() => {
-      if(firebase.auth().currentUser !== null) {
-        Alert.alert("Current user= " + firebase.auth().currentUser.email)
+      if (firebase.auth().currentUser !== null) {
+        if (this.state.count === 0) {
+          Alert.alert("Current user= " + firebase.auth().currentUser.email);
+          const oldCount = this.state.count + 1;
+          this.setState({ count: oldCount });
+        }
         this.props.navigation.replace('Home');
       }
-      // else {
-      //   this.props.navigation.replace('Login')
-
-      // }
     })
 
   }
@@ -78,7 +86,7 @@ class LoginScreen extends React.Component {
         <SafeAreaView style={{ alignItems: 'center' }}>
           <Text style={{ color: 'red' }}>Login Screen</Text>
           <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
-            <Button title='To Forgot Password' onPress={() => this.props.navigation.navigate('Forgot')} />
+            <Button title='Forgot Password' onPress={() => this.props.navigation.navigate('Forgot')} />
           </View>
           <View style={{ height: 20, width: 300, }}>
             <TextInput
@@ -105,52 +113,55 @@ class LoginScreen extends React.Component {
           <View style={{ height: 10 }} />
 
           <Button title='Login' onPress={() => {
-            // Alert.alert("username= " + this.state.username + "\npassword= " + this.state.password);
-            if (firebase.auth().currentUser !== null) {
-              firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-              this.props.navigation.replace('Home');
-              Alert.alert("You're already signed in!")
+
+            try {
+              if (this.state.username === '' || this.state.password === '') {
+                Alert.alert("Please fill in all the appropriate fields.");
+              }
+              else {
+                firebase.auth().signInWithEmailAndPassword(this.state.username, this.state.password).then(() => {
+                  this.props.navigation.replace('Home')
+                }, (error) => {
+                  Alert.alert(error.message);
+                }).catch(function (error) {
+                  console.log(error.message)
+                });
+              }
+
+            } catch (error) {
+              Alert.alert(error.toString(error));
+              console.log(error.toString(error));
             }
-            else {
-              firebase.auth().signInWithEmailAndPassword(this.state.username, this.state.password).then(() => {
-                this.props.navigation.replace('Home')
-              }, (error) => {
-                Alert.alert(error.message);
-              }).catch(function (error) {
-                console.log(error.message)
-              });
-            }
-
-
-
 
 
 
           }} />
 
           <Button title='Sign-up' onPress={() => {
-            this.SignUp(this.state.username, this.state.password),
-              firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
-                // firebase.auth().createUserWithEmailAndPassword(this.state.username, this.state.password).then(() => {
-                firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).set({
-                  username: this.state.username,
-                  password: this.state.password
-                }).then(() => {
-                  this.props.navigation.replace('Home');
-                  Alert.alert("You've been added to firebase!")
-                })
-              })
-            // })
-
-
+            if (this.state.username === '' || this.state.password === '') {
+              Alert.alert("Please fill in all the appropriate fields.");
+            }
+            else {
+              this.SignUp(this.state.username, this.state.password) &&
+                firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
+                  firebase.auth().signInWithEmailAndPassword(this.state.username, this.state.password);
+                  Alert.alert("You've been added to Firebase!");
+                  setTimeout(() => {
+                    this.props.navigation.replace('Home');
+                  }, 2000)
+                });
+            }
           }} />
-
-
-
         </SafeAreaView>
       </View>
     );
   }
+componentWillUnmount() {
+  this.state.username = '';
+  this.state.password = '';
+  this.state.count = 0;
+};
+
 };
 
 const styles = StyleSheet.create({

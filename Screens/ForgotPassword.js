@@ -6,6 +6,8 @@ import {
   View,
   Text,
   Button,
+  Alert,
+  TextInput,
   StatusBar,
 } from 'react-native';
 
@@ -13,19 +15,51 @@ import {
   Colors
 } from 'react-native/Libraries/NewAppScreen';
 
+import * as firebase from 'firebase';
+import 'firebase/firestore';
+
 class ForgotPasswordScreen extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: ''
+    };
+  };
+
+  onResetPasswordPress = () => {
+    firebase.auth().sendPasswordResetEmail(this.state.username)
+        .then(() => {
+            Alert.alert("Password reset email has been sent.");
+        }, (error) => {
+            Alert.alert(error.message);
+        }).then(this.props.navigation.navigate('Login'));
+
+}
+
   render() {
 
-  return (
-    <View style={{ flex:1, alignItems: 'center' }}>
-      <SafeAreaView style={{ alignItems:'center' }}>
-        <Text style={{ color:'red' }}>Forgot Password Screen</Text>
-        <Button title='To Login' onPress={() =>  this.props.navigation.navigate('Login')} />
+    return (
+      <View style={{ flex: 1, alignItems: 'center' }}>
+        <SafeAreaView style={{ alignItems: 'center' }}>
+          <Text style={{ color: 'red' }}>Forgot Password Screen</Text>
+          <View style={{ height: 20, width: 300, }}>
+            <TextInput
+              placeholder='email'
+              onChangeText={(text) => this.setState({ username: text })}
+              autoCorrect={false}
+              value={this.state.username}
+              style={{ backgroundColor: 'pink', width: '100%', flexDirection: 'row', flex: 1 }}
+            />
+          </View>
+          <View style={{ height: 10 }} />
 
-      </SafeAreaView>
+          <Button title='Submit' onPress={this.onResetPasswordPress} />
+
+        </SafeAreaView>
       </View>
-  );
-}
+    );
+  }
 };
 
 const styles = StyleSheet.create({
