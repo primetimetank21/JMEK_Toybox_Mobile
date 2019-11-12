@@ -7,13 +7,14 @@
  */
 
 import React from 'react';
+import {Icon} from 'react-native-vector-icons/Ionicons'
+import {Button, ThemeProvider} from 'react-native-elements';
 import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
   View,
   Text,
-  Button,
   Alert,
   TextInput,
   StatusBar,
@@ -78,47 +79,48 @@ class LoginScreen extends React.Component {
     })
 
   }
+  isDisabled() {
+    return (this.state.username === '' || this.state.password === '');
+  }
 
   render() {
 
     return (
-      <View style={{ flex: 1, alignItems: 'center' }}>
+      <View style={styles.container}>
         <SafeAreaView style={{ alignItems: 'center' }}>
-          <Text style={{ color: 'red' }}>Login Screen</Text>
-          <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
-            <Button title='Forgot Password' onPress={() => this.props.navigation.navigate('Forgot')} />
-          </View>
-          <View style={{ height: 20, width: 300, }}>
+          <Text style={{ marginRight: 150, marginBottom: 10, color: 'black', fontFamily: "Avenir-Heavy",
+          fontSize: 50}}>Hello.</Text>
+          <View>
             <TextInput
               placeholder='email'
               onChangeText={(text) => this.setState({ username: text })}
               autoCorrect={false}
               value={this.state.username}
-              style={{ backgroundColor: 'pink', width: '100%', flexDirection: 'row', flex: 1 }}
+              style={styles.login}
             />
           </View>
           <View style={{ height: 10 }} />
 
-          <View style={{ height: 20, width: 300, }}>
+          <View>
             <TextInput
               placeholder='password'
-
               onChangeText={(text) => this.setState({ password: text })}
               autoCorrect={false}
               value={this.state.password}
               secureTextEntry
-              style={{ backgroundColor: 'pink', width: '100%', flexDirection: 'row', flex: 1 }}
+              style={styles.login}
             />
           </View>
           <View style={{ height: 10 }} />
-
-          <Button title='Login' onPress={() => {
+          <View style={{ marginLeft: 175,flexDirection: 'row', alignItems: 'flex-end'}}>
+            <Text
+            style={{color: '#FF595E'}}
+            onPress={() => this.props.navigation.navigate('Forgot')}>Forgot password?</Text>
+          </View>
+          <View style={{ height: 10 }} />
+          <Button  color = "#ff5c5c" disabled = {this.isDisabled()} title='Login' onPress={() => {
 
             try {
-              if (this.state.username === '' || this.state.password === '') {
-                Alert.alert("Please fill in all the appropriate fields.");
-              }
-              else {
                 firebase.auth().signInWithEmailAndPassword(this.state.username, this.state.password).then(() => {
                   this.props.navigation.replace('Home')
                 }, (error) => {
@@ -126,7 +128,7 @@ class LoginScreen extends React.Component {
                 }).catch(function (error) {
                   console.log(error.message)
                 });
-              }
+
 
             } catch (error) {
               Alert.alert(error.toString(error));
@@ -136,12 +138,8 @@ class LoginScreen extends React.Component {
 
 
           }} />
-
-          <Button title='Sign-up' onPress={() => {
-            if (this.state.username === '' || this.state.password === '') {
-              Alert.alert("Please fill in all the appropriate fields.");
-            }
-            else {
+          <View style={{ height: 10 }} />
+          <Button disabled = {this.isDisabled()} title='Register' onPress={() => {
               this.SignUp(this.state.username, this.state.password) &&
                 firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
                   firebase.auth().signInWithEmailAndPassword(this.state.username, this.state.password);
@@ -150,7 +148,7 @@ class LoginScreen extends React.Component {
                     this.props.navigation.replace('Home');
                   }, 2000)
                 });
-            }
+
           }} />
         </SafeAreaView>
       </View>
@@ -172,18 +170,24 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 0,
   },
-  body: {
-    backgroundColor: Colors.white,
+  signUpContainer: {
+    flexGrow: 1,
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    marginVertical: 16,
+    flexDirection: 'row'
   },
   sectionContainer: {
-    marginTop: 32,
+    marginTop: 30,
     paddingHorizontal: 24,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
+button: {
+  width: 300,
+  backgroundColor: "#FF595E",
+  borderRadius: 10,
+  marginVertical: 10,
+  paddingVertical: 12
+},
   sectionDescription: {
     marginTop: 8,
     fontSize: 18,
@@ -201,6 +205,22 @@ const styles = StyleSheet.create({
     paddingRight: 12,
     textAlign: 'right',
   },
+  login: {
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#000000',
+    width: 300,
+    fontSize:16,
+    paddingHorizontal: 16,
+    height: 50,
+  },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#FFFFFF',
+    marginTop: 250,
+  }
 });
 
 export default LoginScreen;
