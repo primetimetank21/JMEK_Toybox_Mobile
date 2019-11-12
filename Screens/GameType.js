@@ -14,14 +14,20 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 class GameTypeScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      title: this.props.navigation.state.params.titleRef
+    }
+  }
   render() {
 
   return (
     <View style={{ flex:1, alignItems: 'center' }}>
       <SafeAreaView style={{ alignItems:'center' }}>
-        <Text style={{ color:'red' }}>Game Type Screen</Text>
-        <Button title='To Home' onPress={() =>  this.props.navigation.navigate('Home')} />
-        <Button title='To GameMode' onPress={() =>  this.props.navigation.navigate('GameMode')} />
+        <Text style={{ color:'red' }}>{this.state.title}</Text>
+        {/* <Button title='To Home' onPress={() =>  this.props.navigation.navigate('Home')} /> */}
+        {/* <Button title='To GameMode' onPress={() =>  this.props.navigation.navigate('GameMode')} /> */}
 
       </SafeAreaView>
       </View>
