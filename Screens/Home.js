@@ -10,14 +10,23 @@ import {
   StatusBar,
   TouchableOpacity,
 } from 'react-native';
+import {
+  Header,
+  Left,
+  Body,
+  Title,
+  Right,
+} from 'native-base';
+
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 
-import {SearchBar, Avatar, ListItem} from 'react-native-elements';
+import { SearchBar, Avatar, ListItem } from 'react-native-elements';
 
 import {
   Colors
 } from 'react-native/Libraries/NewAppScreen';
+// import { Header } from 'react-navigation-stack';
 
 const list = [
   {
@@ -64,66 +73,84 @@ class HomeScreen extends React.Component {
 
   render() {
 
-  return (
-    <ScrollView style={{ flex:1 }}>
+    return (
+      <View style={{ flex: 1 }}>
 
-      <SafeAreaView>
+      <Header style={{ flexDirection:'row' }}>
+      <Left style={{  }}>
+        <Button title='log out' onPress={() => {
+          firebase.auth().signOut().then(this.props.navigation.replace('Login')).then(() => {Alert.alert("Signed out!")});
+        }} />
+      </Left>
 
-      <View style={{alignItems:'center', marginTop: 75}}>
-      <Text style={{fontSize: 30, fontFamily: 'Avenir-Heavy'}}>Most Popular Categories</Text>
-      </View>
-      <View>
+        <Body style={{  }}>
+        <Title style={{  }}>Home</Title>
+        </Body>
 
-        {
-          list.map((l, i) => (
-            <TouchableOpacity onPress={() => {
-                Alert.alert("Take me to \"" + l.name + "\" GameType!");
-                this.props.navigation.navigate('GameType', {titleRef: l.name});
-
-                }}>
-              <ListItem
-              key={i}
-              leftAvatar={{source : {uri: l.avatar_url} }}
-              
-
-              title={<Text>{l.name}</Text>}
-              subtitle={l.subtitle}
-              
-              bottomDivider
-            />
-            </TouchableOpacity>
-            
+        <Right style={{  }}>
+        </Right>
+      </Header>
       
-          ))
-        }
-      </View>
-      <View style={{alignItems:'center', marginTop: 10}}>
-      <Text style={{fontSize: 30, fontFamily: 'Avenir-Heavy'}}>Recently Added Categories</Text>
-      </View>
-      <View>
+      
+        <ScrollView style={{  }}>
+          <SafeAreaView>
 
-        {
-          list2.map((l, i) => (
-            <TouchableOpacity onPress={() => {
-              Alert.alert("Take me to \"" + l.name + "\" GameType!");
-              this.props.navigation.navigate('GameType', {titleRef: l.name});
-            }}>
-            <ListItem
-              key={i}
-              leftAvatar={{ source: { uri: l.avatar_url } }}
-              title={<Text>{l.name}</Text>}
-              subtitle={l.subtitle}
-              bottomDivider
-            />
-            </TouchableOpacity>
-          ))
-        }
-      </View>
+            <View style={{ alignItems: 'center' }}>
+              <Text style={{ fontSize: 30, fontFamily: 'Avenir-Heavy' }}>Most Popular Categories</Text>
+            </View>
+            <View>
 
-      </SafeAreaView>
-      </ScrollView>
-  );
-}
+              {
+                list.map((l, i) => (
+                  <TouchableOpacity key={i} onPress={() => {
+                    Alert.alert("Take me to \"" + l.name + "\" GameType!");
+                    this.props.navigation.navigate('GameType', { titleRef: l.name });
+
+                  }}>
+                    <ListItem
+                      key={i}
+                      leftAvatar={{ source: { uri: l.avatar_url } }}
+
+
+                      title={<Text>{l.name}</Text>}
+                      subtitle={l.subtitle}
+
+                      bottomDivider
+                    />
+                  </TouchableOpacity>
+
+
+                ))
+              }
+            </View>
+            <View style={{ alignItems: 'center', marginTop: 10 }}>
+              <Text style={{ fontSize: 30, fontFamily: 'Avenir-Heavy' }}>Recently Added Categories</Text>
+            </View>
+            <View>
+
+              {
+                list2.map((l, i) => (
+                  <TouchableOpacity key={i} onPress={() => {
+                    Alert.alert("Take me to \"" + l.name + "\" GameType!");
+                    this.props.navigation.navigate('GameType', { titleRef: l.name });
+                  }}>
+                    <ListItem
+                      key={i}
+                      leftAvatar={{ source: { uri: l.avatar_url } }}
+                      title={<Text>{l.name}</Text>}
+                      subtitle={l.subtitle}
+                      bottomDivider
+                    />
+                  </TouchableOpacity>
+                ))
+              }
+            </View>
+
+          </SafeAreaView>
+        </ScrollView>
+      </View>
+    );
+  }
 };
 
 export default HomeScreen;

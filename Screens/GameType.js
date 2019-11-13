@@ -27,7 +27,9 @@ class GameTypeScreen extends React.Component {
       <SafeAreaView style={{ alignItems:'center' }}>
         <Text style={{ color:'red' }}>{this.state.title}</Text>
         {/* <Button title='To Home' onPress={() =>  this.props.navigation.navigate('Home')} /> */}
-        {/* <Button title='To GameMode' onPress={() =>  this.props.navigation.navigate('GameMode')} /> */}
+        <Button title='Single Player GameMode' onPress={() =>  this.props.navigation.navigate('GameMode')} />
+        <Button title='Multi Player GameMode' onPress={() =>  this.props.navigation.navigate('GameMode')} />
+        
 
       </SafeAreaView>
       </View>

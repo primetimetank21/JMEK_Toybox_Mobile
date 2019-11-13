@@ -20,7 +20,7 @@ class GameModeScreen extends React.Component {
     <View style={{ flex:1, alignItems: 'center' }}>
       <SafeAreaView style={{ alignItems:'center' }}>
         <Text style={{ color:'red' }}>Game Mode Screen</Text>
-        <Button title='To GameType' onPress={() =>  this.props.navigation.navigate('GameType')} />
+        {/* <Button title='To GameType' onPress={() =>  this.props.navigation.navigate('GameType')} /> */}
       </SafeAreaView>
       </View>
   );
