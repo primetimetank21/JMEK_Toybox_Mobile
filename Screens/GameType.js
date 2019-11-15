@@ -25,6 +25,7 @@ class GameTypeScreen extends React.Component {
     super(props);
     this.state = {
       title: this.props.navigation.state.params.titleRef,
+      mode: '',
       refreshing: false,
       theQuestions: [],
     }
@@ -34,8 +35,9 @@ class GameTypeScreen extends React.Component {
   }
 
 
-  _onRefresh = async () => {
+  _onRefresh = async (str) => {
     this.setState({ refreshing: true });
+    this.setState({ mode: str })
 
     this.unsubscribe = firebase.firestore().collection('questions').doc(this.state.title).collection('questions').onSnapshot((snapShot) => {
       let questionArray = [];
@@ -59,8 +61,11 @@ class GameTypeScreen extends React.Component {
 
 
     })
-
     this.setState({ refreshing: false });
+
+    setTimeout(() => {
+      this.props.navigation.navigate('GameMode', { title: this.state.title, questions: this.state.theQuestions, mode: this.state.mode });
+    }, 500)
 
   }
 
@@ -69,61 +74,10 @@ class GameTypeScreen extends React.Component {
       <View style={{ flex: 1, alignItems: 'center' }}>
         <SafeAreaView style={{ alignItems: 'center' }}>
           <Text style={{ color: 'red' }}>{this.state.title}</Text>
-          {/* <Button title='To Home' onPress={() =>  this.props.navigation.navigate('Home')} /> */}
-          <Button title='Single Player GameMode' onPress={() => this.props.navigation.navigate('GameMode')} />
-          <Button title='Multi Player GameMode' onPress={() => this.props.navigation.navigate('GameMode')} />
-
-          <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }}>
-            <TouchableOpacity onPress={this._onRefresh}>
-              <Text>Hello</Text>
-            </TouchableOpacity>
-            {/* <ScrollView style={{ backgroundColor: 'black', width: 300 }}> */}
-            <View>
-              <FlatList
-                data={this.state.theQuestions}
-                renderItem={({ item, key, index }) => {
-                  return (
-                    <View
-                      key={key}
-                      index={index}
-                      style={{
-                        flex: 1,
-                        width: 360,
-                        flexDirection: 'column',
-                        backgroundColor: 'red',
-                      }}>
-                      <Text style={{ color: 'white', fontSize:15 }}>{item.prompt}</Text>
-
-                      <TouchableOpacity>
-                        <Text style={{ color: 'white' }}>A. {item.choices[0]}</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity>
-                        <Text style={{ color: 'white' }}>B. {item.choices[1]}</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity>
-                        <Text style={{ color: 'white' }}>C. {item.choices[2]}</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity>
-                        <Text style={{ color: 'white' }}>D. {item.choices[3]}</Text>
-                      </TouchableOpacity>
-                      
-                      <Text style={{ color: 'white' }}>Correct Answer: {item.choices[item.answer]}</Text>
-                      <Text style={{ color: 'blue' }}>key= {index}</Text>
-
-                      <View style={{ height: 2, backgroundColor: 'blue' }} />
-                    </View>
-                  );
-                }}
-                keyExtractor={(item, index) => item.prompt}
-
-              />
-            </View>
-
-            {/* </ScrollView> */}
-
+          <View style={{ alignContent:'center', justifyContent:'center' }}>
+          <Button title='Single Player GameMode' onPress={() => this._onRefresh('Single')}/>
+          <Button title='Multi Player GameMode' onPress={() => this._onRefresh('Multi')}/>
           </View>
-
-
         </SafeAreaView>
       </View>
     );

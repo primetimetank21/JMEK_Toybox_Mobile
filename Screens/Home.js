@@ -103,7 +103,7 @@ class HomeScreen extends React.Component {
               {
                 list.map((l, i) => (
                   <TouchableOpacity key={i} onPress={() => {
-                    Alert.alert("Take me to \"" + l.name + "\" GameType!");
+                    // Alert.alert("Take me to \"" + l.name + "\" GameType!");
                     this.props.navigation.navigate('GameType', { titleRef: l.name });
 
                   }}>
