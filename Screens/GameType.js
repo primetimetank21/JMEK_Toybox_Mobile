@@ -7,7 +7,8 @@ import {
   Text,
   Button,
   StatusBar,
-  RefreshControl
+  RefreshControl,
+  FlatList
 } from 'react-native';
 
 import {
@@ -34,9 +35,9 @@ class GameTypeScreen extends React.Component {
 
 
   _onRefresh = async () => {
-    this.setState({refreshing: true});
+    this.setState({ refreshing: true });
 
-    this.unsubscribe = firebase.firestore().collection('questions').doc('Soccer').collection('questions').onSnapshot((snapShot) => {
+    this.unsubscribe = firebase.firestore().collection('questions').doc(this.state.title).collection('questions').onSnapshot((snapShot) => {
       let questionArray = [];
       snapShot.forEach((doc) => {
         questionArray.push({
@@ -48,7 +49,7 @@ class GameTypeScreen extends React.Component {
 
       console.log('questionArray= ' + questionArray);
       // console.log('questionArray[1].prompt= ' + questionArray[1].prompt);
-      // console.log('questionArray[1].choices= ' + questionArray[1].choices);
+      // console.log('questionArray[1].choices= ' + questionArray[1].choices[2]);
       // console.log('questionArray[1].answer= ' + questionArray[1].answer);
 
 
@@ -59,30 +60,74 @@ class GameTypeScreen extends React.Component {
 
     })
 
-    this.setState({refreshing: false});
-  
+    this.setState({ refreshing: false });
+
   }
 
   render() {
-  return (
-    <View style={{ flex:1, alignItems: 'center' }}>
-      <SafeAreaView style={{ alignItems:'center' }}>
-        <Text style={{ color:'red' }}>{this.state.title}</Text>
-        {/* <Button title='To Home' onPress={() =>  this.props.navigation.navigate('Home')} /> */}
-        <Button title='Single Player GameMode' onPress={() =>  this.props.navigation.navigate('GameMode')} />
-        <Button title='Multi Player GameMode' onPress={() =>  this.props.navigation.navigate('GameMode')} />
-        
-        <View style={{ flex: 1, alignContent:'center', justifyContent:'center' }}>
-          <TouchableOpacity onPress={this._onRefresh}>
-         <Text>Hello</Text>
-          </TouchableOpacity>
-        </View>
+    return (
+      <View style={{ flex: 1, alignItems: 'center' }}>
+        <SafeAreaView style={{ alignItems: 'center' }}>
+          <Text style={{ color: 'red' }}>{this.state.title}</Text>
+          {/* <Button title='To Home' onPress={() =>  this.props.navigation.navigate('Home')} /> */}
+          <Button title='Single Player GameMode' onPress={() => this.props.navigation.navigate('GameMode')} />
+          <Button title='Multi Player GameMode' onPress={() => this.props.navigation.navigate('GameMode')} />
+
+          <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }}>
+            <TouchableOpacity onPress={this._onRefresh}>
+              <Text>Hello</Text>
+            </TouchableOpacity>
+            {/* <ScrollView style={{ backgroundColor: 'black', width: 300 }}> */}
+            <View>
+              <FlatList
+                data={this.state.theQuestions}
+                renderItem={({ item, key, index }) => {
+                  return (
+                    <View
+                      key={key}
+                      index={index}
+                      style={{
+                        flex: 1,
+                        width: 360,
+                        flexDirection: 'column',
+                        backgroundColor: 'red',
+                      }}>
+                      <Text style={{ color: 'white', fontSize:15 }}>{item.prompt}</Text>
+
+                      <TouchableOpacity>
+                        <Text style={{ color: 'white' }}>A. {item.choices[0]}</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity>
+                        <Text style={{ color: 'white' }}>B. {item.choices[1]}</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity>
+                        <Text style={{ color: 'white' }}>C. {item.choices[2]}</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity>
+                        <Text style={{ color: 'white' }}>D. {item.choices[3]}</Text>
+                      </TouchableOpacity>
+                      
+                      <Text style={{ color: 'white' }}>Correct Answer: {item.choices[item.answer]}</Text>
+                      <Text style={{ color: 'blue' }}>key= {index}</Text>
+
+                      <View style={{ height: 2, backgroundColor: 'blue' }} />
+                    </View>
+                  );
+                }}
+                keyExtractor={(item, index) => item.prompt}
+
+              />
+            </View>
+
+            {/* </ScrollView> */}
+
+          </View>
 
 
-      </SafeAreaView>
+        </SafeAreaView>
       </View>
-  );
-}
+    );
+  }
 };
 
 const styles = StyleSheet.create({

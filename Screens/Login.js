@@ -53,7 +53,8 @@ class LoginScreen extends React.Component {
       firebase.auth().createUserWithEmailAndPassword(email, password).then(user => {
         firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).set({
           username: this.state.username,
-          password: this.state.password
+          password: this.state.password,
+          points: 0
         })
         console.log(user);
       });
