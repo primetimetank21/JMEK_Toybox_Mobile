@@ -8,19 +8,22 @@ import ForgotPasswordScreen from './Screens/ForgotPassword'
 import LeaderboardScreen from './Screens/Leaderboard';
 import GameTypeScreen from './Screens/GameType';
 import GameModeScreen from './Screens/GameMode';
+import ProfileScreen from './Screens/Profile';
+import RegisterScreen from './Screens/Register';
 
 
 // firebase.initializeApp(FirebaseConfig);
 if (!firebase.apps.length) { firebase.initializeApp(FirebaseConfig); }
 
 const MainNavigator = createStackNavigator({
-    Login: {screen: LoginScreen}, 
-    Home: {screen: HomeScreen},
-    Forgot: {screen: ForgotPasswordScreen},
-    Leaderboard: {screen: LeaderboardScreen},
-    GameType: {screen: GameTypeScreen},
-    GameMode: {screen: GameModeScreen}
-  
+  Login: {screen: LoginScreen},
+  Home: {screen: HomeScreen},
+  Forgot: {screen: ForgotPasswordScreen},
+  Leaderboard: {screen: LeaderboardScreen},
+  GameType: {screen: GameTypeScreen},
+  GameMode: {screen: GameModeScreen},
+  Profile: {screen: ProfileScreen},
+  Register: {screen: RegisterScreen},
 });
 
 const App = createAppContainer(MainNavigator);
