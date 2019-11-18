@@ -52,6 +52,7 @@ class RegisterScreen extends React.Component {
             .set({
               username: this.state.username,
               password: this.state.password,
+              points: 0
             });
           console.log(user);
         });
@@ -73,11 +74,13 @@ class RegisterScreen extends React.Component {
       }
     });
   }
-  isDisabled() {
-    return (
-      this.state.username === '' &&
-      (this.state.password === '' || this.state.cofrimPassword === '')
-    );
+
+  isDisabled = () => {
+    var a = true;
+    if((this.state.username !== '' && this.state.password !== '' && this.state.confirmPassword !== '') && (this.state.password === this.state.confirmPassword) && (this.state.password.length >= 6 && this.state.confirmPassword.length >= 6)) {
+      a = false;
+    }
+     return a;
   }
 
   render() {
@@ -103,7 +106,9 @@ class RegisterScreen extends React.Component {
             <TextInput
               placeholder="email"
               // eslint-disable-next-line prettier/prettier
-              onChangeText={(text) => this.setState({ username: text })}
+              onChangeText={(text) => {
+                this.setState({ username: text })
+              }}
               autoCorrect={false}
               value={this.state.username}
               style={styles.login}
@@ -114,7 +119,9 @@ class RegisterScreen extends React.Component {
           <View>
             <TextInput
               placeholder="password"
-              onChangeText={text => this.setState({password: text})}
+              onChangeText={(text) =>  {
+                this.setState({password: text})
+              }}
               autoCorrect={false}
               value={this.state.password}
               secureTextEntry
@@ -125,7 +132,7 @@ class RegisterScreen extends React.Component {
           <View>
             <TextInput
               placeholder="confirm password"
-              onChangeText={text => this.setState({cofirmPassword: text})}
+              onChangeText={(text) => this.setState({confirmPassword: text})}
               autoCorrect={false}
               value={this.state.confirmPassword}
               secureTextEntry

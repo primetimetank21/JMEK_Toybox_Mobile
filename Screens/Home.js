@@ -48,9 +48,9 @@ const list2 = [
       'https://as.com/meristation/imagenes/2019/01/27/noticias/1548592407_949428_1548592775_noticia_normal.jpg',
   },
   {
-    name: 'Italian Food',
+    name: 'Food',
     avatar_url:
-      'https://www.grossmontcenter.com/wp-content/uploads/shutterstock_697347319.jpg',
+      'https://assets3.thrillist.com/v1/image/2797371/size/tmg-article_default_mobile.jpg',
   },
   {
     name: 'Holidays',
@@ -58,7 +58,7 @@ const list2 = [
       'https://img.freepik.com/free-vector/thanksgiving-concept-with-flat-design-background_23-2148307232.jpg?size=626&ext=jpg',
   },
   {
-    name: 'K-Pop',
+    name: 'Music',
     avatar_url:
       'https://www.billboard.com/files/styles/article_main_image/public/media/02-BTS-backstage-billboard-BBMAS-1548.jpg',
   },
@@ -96,7 +96,7 @@ class HomeScreen extends React.Component {
             <Avatar
               rounded
               title="MD"
-              onPress={() => this.props.navigation.navigate('Profile')}
+              onPress={() => this.props.navigation.replace('Profile')}
             />
           </Right>
         </Header>
@@ -113,7 +113,7 @@ class HomeScreen extends React.Component {
               {
                 list.map((l, i) => (
                   <TouchableOpacity key={i} onPress={() => {
-                    this.props.navigation.navigate('GameType', { titleRef: l.name });
+                    this.props.navigation.replace('GameType', { titleRef: l.name });
 
                   }}>
                   <ListItem

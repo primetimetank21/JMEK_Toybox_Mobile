@@ -64,7 +64,7 @@ class GameTypeScreen extends React.Component {
     this.setState({ refreshing: false });
 
     setTimeout(() => {
-      this.props.navigation.navigate('GameMode', { title: this.state.title, questions: this.state.theQuestions, mode: this.state.mode });
+      this.props.navigation.replace('GameMode', { title: this.state.title, questions: this.state.theQuestions, mode: this.state.mode });
     }, 500)
 
   }
@@ -77,6 +77,7 @@ class GameTypeScreen extends React.Component {
           <View style={{ alignContent:'center', justifyContent:'center' }}>
           <Button title='Single Player GameMode' onPress={() => this._onRefresh('Single')}/>
           <Button title='Multi Player GameMode' onPress={() => this._onRefresh('Multi')}/>
+          <Button title='Home' onPress={() => this.props.navigation.replace("Home")}/>
           </View>
         </SafeAreaView>
       </View>
