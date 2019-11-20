@@ -6,26 +6,98 @@ import {
   View,
   Text,
   Button,
+  FlatList,
   StatusBar,
 } from 'react-native';
+
+import * as firebase from 'firebase';
+import 'firebase/firestore';
 
 import {
   Colors
 } from 'react-native/Libraries/NewAppScreen';
 
 class LeaderboardScreen extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      refreshing: false,
+      mounted: true,
+      myLeaderboard: undefined
+    }
+    this.userRef = firebase.firestore().collection('users');
+
+  }
+
+  getScores = () => {
+    this.setState({ refreshing: true });
+
+    this.unsubscribe = this.userRef.onSnapshot((onSnap) => {
+      let leaderboardArray = [];
+      onSnap.forEach((doc) => {
+        leaderboardArray.push({
+          username: doc.data().username,
+          score: doc.data().points,
+        });
+
+      });
+      console.log(leaderboardArray);
+      this.setState({
+        myLeaderboard: leaderboardArray.sort((a, b) => {
+          return (a.score < b.score);
+        }),
+        loading: false,
+      })
+
+      this.state.mounted = true && this.unsubscribe();
+
+    });
+
+    this.setState({ refreshing: false });
+
+  }
+
   render() {
 
-  return (
-    <View style={{ flex:1, alignItems: 'center' }}>
-      <SafeAreaView style={{ alignItems:'center' }}>
-        <Text style={{ color:'red' }}>Leaderboard Screen</Text>
-        <Button title='To Home' onPress={() =>  this.props.navigation.navigate('Home')} />
+    return (
+      <View style={{ flex: 1, alignItems: 'center' }}>
+        <SafeAreaView style={{ alignItems: 'center' }}>
+          <Text style={{ color: 'red' }}>Leaderboard Screen</Text>
+          <View style={{ flex: 1, alignItems: 'center',/* justifyContent:'center'*/ }}>
 
-      </SafeAreaView>
+            <Button title='get scores' onPress={() => this.getScores()} />
+
+            {this.state.myLeaderboard !== undefined &&
+              <FlatList
+                data={this.state.myLeaderboard}
+                renderItem={({ item, key, index }) => {
+                  return (
+                    <View
+                      key={key}
+                      index={index}
+                      style={{
+                        flex: 1,
+                        width: 360,
+                        flexDirection: 'column',
+                        backgroundColor: 'red',
+                      }}>
+                      <Text style={{ color: 'white' }}>{index+1}. {item.username}: {item.score}</Text>
+
+                      <View style={{ height: 2, backgroundColor: 'blue' }} />
+                    </View>
+                  );
+                }}
+                keyExtractor={(item, index) => item.score}
+              />
+            }
+          </View>
+
+        </SafeAreaView>
       </View>
-  );
-}
+    );
+  }
 };
 
 const styles = StyleSheet.create({

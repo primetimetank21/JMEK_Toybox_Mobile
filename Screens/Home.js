@@ -95,8 +95,8 @@ class HomeScreen extends React.Component {
           <Right style={{}}>
             <Avatar
               rounded
-              title="MD"
-              onPress={() => this.props.navigation.replace('Profile')}
+              title="Prof"
+              onPress={() => this.props.navigation.navigate('Profile')}
             />
           </Right>
         </Header>
