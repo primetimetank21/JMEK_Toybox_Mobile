@@ -67,7 +67,7 @@ class LeaderboardScreen extends React.Component {
           <Text style={{ color: 'red' }}>Leaderboard Screen</Text>
           <View style={{ flex: 1, alignItems: 'center',/* justifyContent:'center'*/ }}>
 
-            <Button title='get scores' onPress={() => this.getScores()} />
+            <Button title='See Leaderboard' onPress={() => this.getScores()} />
 
             {this.state.myLeaderboard !== undefined &&
               <FlatList
@@ -83,7 +83,10 @@ class LeaderboardScreen extends React.Component {
                         flexDirection: 'column',
                         backgroundColor: 'red',
                       }}>
-                      <Text style={{ color: 'white' }}>{index+1}. {item.username}: {item.score}</Text>
+                      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <Text style={{ color: 'white' }}>{index + 1}. {item.username}:</Text>
+                        <Text style={{ color: 'white', paddingRight: 50 }}>{item.score}</Text>
+                      </View>
 
                       <View style={{ height: 2, backgroundColor: 'blue' }} />
                     </View>

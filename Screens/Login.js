@@ -35,31 +35,30 @@ class LoginScreen extends React.Component {
     };
   }
 
-  SignUp = (email, password) => {
-    try {
-      if (this.state.username === '' || this.state.password === '') {
-        Alert.alert('Please fill in all the appropriate fields.');
-      }
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then(user => {
-          firebase
-            .firestore()
-            .collection('users')
-            .doc(firebase.auth().currentUser.uid)
-            .set({
-              username: this.state.username,
-              password: this.state.password,
-              points: 0,
-            });
-          console.log(user);
-        });
-    } catch (error) {
-      Alert.alert(error.toString(error));
-      console.log(error.toString(error));
-    }
-  };
+  // SignUp = (email, password) => {
+  //   try {
+  //     if (this.state.username === '' || this.state.password === '') {
+  //       Alert.alert('Please fill in all the appropriate fields.');
+  //     }
+  //     firebase
+  //       .auth()
+  //       .createUserWithEmailAndPassword(email, password)
+  //       .then(user => {
+  //         firebase
+  //           .firestore()
+  //           .collection('users')
+  //           .doc(firebase.auth().currentUser.uid)
+  //           .set({
+  //             username: this.state.username,
+  //             points: 0,
+  //           });
+  //         console.log(user);
+  //       });
+  //   } catch (error) {
+  //     Alert.alert(error.toString(error));
+  //     console.log(error.toString(error));
+  //   }
+  // };
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged(() => {
