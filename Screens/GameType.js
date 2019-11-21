@@ -54,6 +54,8 @@ class GameTypeScreen extends React.Component {
       // console.log('questionArray[1].choices= ' + questionArray[1].choices[2]);
       // console.log('questionArray[1].answer= ' + questionArray[1].answer);
 
+      var shuffle = require('shuffle-array');
+      questionArray = shuffle(questionArray);
 
       this.setState({ theQuestions: questionArray })
 
