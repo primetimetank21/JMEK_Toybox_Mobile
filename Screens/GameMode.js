@@ -57,9 +57,11 @@ class GameModeScreen extends React.Component {
     // var admin = require('firebase-admin');
 
     firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).update({
-      points: firebase.firestore.FieldValue.increment(score)
+      points: firebase.firestore.FieldValue.increment(score),
+      //add current score to array containing scores
+      gameScores: firebase.firestore.FieldValue.arrayUnion(score)
     })
-    
+
     if (score === 0 || score > 1) {
       Alert.alert("You earned " + score + " points!");
     }

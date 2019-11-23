@@ -14,14 +14,14 @@ class ProfileScreen extends React.Component {
       reload: true,
       change: false,
       username: '',
+      topScores: [],
       newUsername: '',
+      thanosSnap: null
     }
   };
 
   changeUsername = () => {
-    // Alert.alert("Pressed")
     this.setState({ change: !this.state.change })
-    // console.log("this.state.change= " + this.state.change)
   };
 
   updateUsername = () => {
@@ -37,19 +37,28 @@ class ProfileScreen extends React.Component {
   componentDidMount() {
     if (this.state.reload === true) {
       let name = '';
-      firebase.firestore().collection('users').onSnapshot((onSnap) => {
+      let arr = [];
+      this.unsubscribe = firebase.firestore().collection('users').onSnapshot((onSnap) => {
         onSnap.forEach((doc) => {
           if (doc.id === firebase.auth().currentUser.uid) {
-            name = doc.data().username
-            this.setState({ username: name })
+            name = doc.data().username;
+            arr = doc.data().gameScores;
+            this.setState({ username: name });
+            this.setState({
+              topScores: arr.sort((a, b) => {
+                return (a.score > b.score);
+              })
+            });
+            console.log(this.state.topScores)
           }
         })
-
+        return this.setState({ thanosSnap: this.unsubscribe() })
       })
-
       this.setState({ reload: false })
+    };
 
-    }
+
+
   }
   render() {
     return (
@@ -66,17 +75,17 @@ class ProfileScreen extends React.Component {
 
           <View style={{ flexDirection: 'row' }}>
             <Text style={{ fontFamily: 'Avenir-Heavy' }}>Hello</Text>
-            <Text style={{ fontFamily: 'Avenir-Heavy' }}> {this.state.username}</Text>
+            <Text style={{ fontFamily: 'Avenir-Heavy', color: 'red' }}> {this.state.username}</Text>
           </View>
           {this.state.change === true &&
             <View style={{ flexDirection: 'row' }}>
               <TextInput
                 style={{
-                  backgroundColor: 'rgba(1,1,1,.1)',
+                  // backgroundColor: 'rgba(1,1,1,.1)',
                   width: 100,
-                  height: 30,
+                  height: 40,
                   textAlign: 'center',
-                  color: 'rgba(365,0,0,.7)'
+                  color: 'rgba(365,0,0,0.7)'
 
                 }}
                 onChangeText={(text) => this.setState({ newUsername: text })}
@@ -84,27 +93,32 @@ class ProfileScreen extends React.Component {
                 placeholder={this.state.username}
               />
               <Button
-                title='submit'
-                style={{ height: 30, }} 
+                title='update'
+                style={{ height: 30, }}
                 onPress={() => this.updateUsername()}
-                />
+              />
             </View>
-
           }
         </Body>
 
-        <ScrollView
-          style={{ flex: .2 }}
-          horizontal={true}
-          decelerationRate={0}
-          snapToInterval={200} //your element width
-          snapToAlignment={'center'}>
-          <Card style={{ height: 30 }} title="Card" />
-          <Card title="Card" />
-          <Card title="Card" />
-          <Card title="Card" />
-          <Card title="Card" />
-        </ScrollView>
+        <FlatList
+          style={{ flexDirection: 'row', height: 20 }}
+          horizontal
+          data={this.state.topScores}
+          renderItem={({ item, key, index }) => {
+            return (
+              <Card
+                key={key}
+                index={index}
+                title={'High Score ' + (index + 1)}
+              >
+                <Text style={{ textAlign: 'center', fontSize: 30 }}>{item}</Text>
+              </Card>
+            );
+          }}
+          keyExtractor={(item, index) => index.key}
+        />
+
         <TouchableOpacity style={{ alignItems: 'center', paddingTop: 10 }} onPress={() => this.props.navigation.navigate('Leaderboard')} >
           <Text style={{ fontFamily: 'Avenir-Heavy', fontSize: 20, color: 'blue' }}>
             See Leaderboard
@@ -115,6 +129,10 @@ class ProfileScreen extends React.Component {
       </SafeAreaView>
 
     );
+  }
+
+  componentWillUnmount() {
+    this.state.thanosSnap;
   }
 }
 
