@@ -51,7 +51,9 @@ class RegisterScreen extends React.Component {
             .doc(firebase.auth().currentUser.uid)
             .set({
               username: this.state.username,
-              points: 0
+              email: this.state.username,
+              points: 0,
+              gameScores: []
             });
           console.log(user);
         });

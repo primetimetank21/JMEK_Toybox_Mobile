@@ -67,7 +67,7 @@ class LeaderboardScreen extends React.Component {
           <Text style={{ color: 'red' }}>Leaderboard Screen</Text>
           <View style={{ flex: 1, alignItems: 'center',/* justifyContent:'center'*/ }}>
 
-            <Button title='See Leaderboard' onPress={() => this.getScores()} />
+            <Button title='View Leaderboard' onPress={() => this.getScores()} />
 
             {this.state.myLeaderboard !== undefined &&
               <FlatList
