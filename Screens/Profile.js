@@ -3,6 +3,7 @@ import React from 'react';
 import { SafeAreaView, FlatList, ScrollView, View, Text, Button, TouchableOpacity, Alert, TextInput } from 'react-native';
 import { Avatar, Card } from 'react-native-elements';
 import { Header, Left, Body } from 'native-base';
+import  { NavigationActions } from 'react-navigation'
 
 import * as firebase from 'firebase';
 import 'firebase/firestore';
@@ -12,6 +13,7 @@ class ProfileScreen extends React.Component {
     super(props);
     this.state = {
       reload: true,
+      reloadCount: 0,
       change: false,
       username: '',
       topScores: [],
@@ -25,10 +27,12 @@ class ProfileScreen extends React.Component {
   };
 
   updateUsername = () => {
+    this.setState({ reload: true })
+    this.componentDidMount();
     firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).update({
       username: this.state.newUsername,
     })
-    console.log("this.state.newUsername= " + this.state.newUsername)
+    // console.log("this.state.newUsername= " + this.state.newUsername)
     this.setState({ newUsername: '' })
     this.setState({ change: !this.state.change })
   };
@@ -40,8 +44,20 @@ class ProfileScreen extends React.Component {
       }, (error) => {
         Alert.alert(error.message);
       })
+  };
 
-  }
+  deleteAccount = () => {
+    var user = firebase.auth().currentUser;
+    firebase.firestore().collection('users').doc(user.uid).delete().then(() => {
+      user.delete();
+    }).then(() => {
+      Alert.alert('User deleted.');
+      setTimeout(() => {
+        firebase.auth().signOut().then(() => {this.props.navigation.reset([NavigationActions.navigate({ routeName: 'Login' })],0)})
+      }, 100)
+
+    })
+  };
 
   componentDidMount() {
     if (this.state.reload === true) {
@@ -61,18 +77,17 @@ class ProfileScreen extends React.Component {
             console.log(this.state.topScores)
           }
         })
+        // this.setState({ reloadCount: this.state.reloadCount++ })
         return this.setState({ thanosSnap: this.unsubscribe() })
       })
       this.setState({ reload: false })
     };
-
-
-
   }
+
   render() {
     return (
       <SafeAreaView style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }}>
-        <Body style={{ flex: .3, paddingBottom: 130 }}>
+        <Body style={{ flex: .7, paddingBottom: 170 }}>
 
           <Text style={{ fontFamily: 'Avenir-Heavy', fontSize: 20, color: 'red' }}>
             Profile
@@ -91,7 +106,6 @@ class ProfileScreen extends React.Component {
               <View style={{ flexDirection: 'row' }}>
                 <TextInput
                   style={{
-                    // backgroundColor: 'rgba(1,1,1,.1)',
                     width: 100,
                     height: 40,
                     textAlign: 'center',
@@ -124,27 +138,49 @@ class ProfileScreen extends React.Component {
                   onPress={() => this.updatePassword()}
                 />
               </View>
+
+              <View style={{ flexDirection: 'row' }}>
+                <Text
+                  style={{
+                    width: 100,
+                    height: 40,
+                    textAlign: 'center',
+                    color: 'rgba(365,0,0,0.7)'
+                  }}
+                />
+                <Button
+                  title='delete account'
+                  style={{ height: 30, }}
+                  onPress={() => this.deleteAccount()}
+                />
+              </View>
             </View>
           }
         </Body>
 
-        <FlatList
-          style={{ flexDirection: 'row', height: 20 }}
-          horizontal
-          data={this.state.topScores}
-          renderItem={({ item, key, index }) => {
-            return (
-              <Card
-                key={key}
-                index={index}
-                title={'High Score ' + (index + 1)}
-              >
-                <Text style={{ textAlign: 'center', fontSize: 30 }}>{item}</Text>
-              </Card>
-            );
-          }}
-          keyExtractor={(item, index) => index.key}
-        />
+        {this.state.topScores.length !== 0 &&
+          <FlatList
+            style={{ flexDirection: 'row', height: 20 }}
+            horizontal
+            data={this.state.topScores}
+            renderItem={({ item, key, index }) => {
+              return (
+                <Card
+                  key={key}
+                  index={index}
+                  title={'High Score ' + (index + 1)}
+                >
+                  <Text style={{ textAlign: 'center', fontSize: 30 }}>{item}</Text>
+                </Card>
+              );
+            }}
+
+            keyExtractor={(item, index) => index.key}
+          />
+        }
+        {this.state.topScores.length === 0 &&
+            <Text style={{ textAlign: 'center', fontSize: 50 }}>No Scores to Display</Text>
+        }
 
         <TouchableOpacity style={{ alignItems: 'center', paddingTop: 10 }} onPress={() => this.props.navigation.navigate('Leaderboard')} >
           <Text style={{ fontFamily: 'Avenir-Heavy', fontSize: 20, color: 'blue' }}>
@@ -152,7 +188,7 @@ class ProfileScreen extends React.Component {
           </Text>
         </TouchableOpacity>
 
-        <View style={{ flex: 4 }} />
+        <View style={{ flex: 3 }} />
       </SafeAreaView>
 
     );
