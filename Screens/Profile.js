@@ -27,14 +27,13 @@ class ProfileScreen extends React.Component {
   };
 
   updateUsername = () => {
-    this.setState({ reload: true })
-    this.componentDidMount();
     firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).update({
       username: this.state.newUsername,
     })
-    // console.log("this.state.newUsername= " + this.state.newUsername)
-    this.setState({ newUsername: '' })
-    this.setState({ change: !this.state.change })
+
+      this.setState({ username: this.state.newUsername })
+      this.setState({ newUsername: '' })
+      this.setState({ change: !this.state.change })    
   };
 
   updatePassword = () => {
