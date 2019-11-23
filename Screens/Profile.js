@@ -31,8 +31,17 @@ class ProfileScreen extends React.Component {
     console.log("this.state.newUsername= " + this.state.newUsername)
     this.setState({ newUsername: '' })
     this.setState({ change: !this.state.change })
-
   };
+
+  updatePassword = () => {
+    firebase.auth().sendPasswordResetEmail(firebase.auth().currentUser.email)
+      .then(() => {
+        Alert.alert("Password reset email has been sent.");
+      }, (error) => {
+        Alert.alert(error.message);
+      })
+
+  }
 
   componentDidMount() {
     if (this.state.reload === true) {
@@ -63,7 +72,7 @@ class ProfileScreen extends React.Component {
   render() {
     return (
       <SafeAreaView style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }}>
-        <Body style={{ flex: .3, paddingBottom: 90 }}>
+        <Body style={{ flex: .3, paddingBottom: 130 }}>
 
           <Text style={{ fontFamily: 'Avenir-Heavy', fontSize: 20, color: 'red' }}>
             Profile
@@ -78,25 +87,43 @@ class ProfileScreen extends React.Component {
             <Text style={{ fontFamily: 'Avenir-Heavy', color: 'red' }}> {this.state.username}</Text>
           </View>
           {this.state.change === true &&
-            <View style={{ flexDirection: 'row' }}>
-              <TextInput
-                style={{
-                  // backgroundColor: 'rgba(1,1,1,.1)',
-                  width: 100,
-                  height: 40,
-                  textAlign: 'center',
-                  color: 'rgba(365,0,0,0.7)'
+            <View style={{ flexDirection: 'column' }}>
+              <View style={{ flexDirection: 'row' }}>
+                <TextInput
+                  style={{
+                    // backgroundColor: 'rgba(1,1,1,.1)',
+                    width: 100,
+                    height: 40,
+                    textAlign: 'center',
+                    color: 'rgba(365,0,0,0.7)'
 
-                }}
-                onChangeText={(text) => this.setState({ newUsername: text })}
-                value={this.state.newUsername}
-                placeholder={this.state.username}
-              />
-              <Button
-                title='update'
-                style={{ height: 30, }}
-                onPress={() => this.updateUsername()}
-              />
+                  }}
+                  onChangeText={(text) => this.setState({ newUsername: text })}
+                  value={this.state.newUsername}
+                  placeholder={this.state.username}
+                />
+                <Button
+                  title='update'
+                  style={{ height: 30, }}
+                  onPress={() => this.updateUsername()}
+                />
+              </View>
+
+              <View style={{ flexDirection: 'row' }}>
+                <Text
+                  style={{
+                    width: 100,
+                    height: 40,
+                    textAlign: 'center',
+                    color: 'rgba(365,0,0,0.7)'
+                  }}
+                />
+                <Button
+                  title='reset password'
+                  style={{ height: 30, }}
+                  onPress={() => this.updatePassword()}
+                />
+              </View>
             </View>
           }
         </Body>
