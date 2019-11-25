@@ -54,6 +54,8 @@ class GameTypeScreen extends React.Component {
       // console.log('questionArray[1].choices= ' + questionArray[1].choices[2]);
       // console.log('questionArray[1].answer= ' + questionArray[1].answer);
 
+      var shuffle = require('shuffle-array');
+      questionArray = shuffle(questionArray);
 
       this.setState({ theQuestions: questionArray })
 
@@ -76,7 +78,7 @@ class GameTypeScreen extends React.Component {
           <Text style={{ color: 'red' }}>{this.state.title}</Text>
           <View style={{ alignContent:'center', justifyContent:'center' }}>
           <Button title='Single Player GameMode' onPress={() => this._onRefresh('Single')}/>
-          <Button title='Multi Player GameMode' onPress={() => this._onRefresh('Multi')}/>
+          {/* <Button title='Multi Player GameMode' onPress={() => this._onRefresh('Multi')}/> */}
           <Button title='Home' onPress={() => this.props.navigation.replace("Home")}/>
           </View>
         </SafeAreaView>

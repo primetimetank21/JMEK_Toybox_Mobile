@@ -33,6 +33,7 @@ class LoginScreen extends React.Component {
       count: 0,
     };
   }
+<<<<<<< HEAD
   handleEmailText = text => {
     this.setState({
       username: text,
@@ -68,6 +69,8 @@ class LoginScreen extends React.Component {
       console.log(error.toString(error));
     }
   };
+=======
+>>>>>>> a150b953ba151b708b5432d83ea5c402ae06a5db
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged(() => {
