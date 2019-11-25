@@ -20,7 +20,6 @@ import {
 
 import * as firebase from 'firebase';
 import 'firebase/firestore';
-
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 // import { widthPercentageToDP as wp, heightPercentageToDP as hp, } from 'react-native-responsive-screen';
@@ -34,7 +33,16 @@ class LoginScreen extends React.Component {
       count: 0,
     };
   }
-
+  handleEmailText = text => {
+    this.setState({
+      username: text,
+    });
+  };
+  handlePasswordText = text => {
+    this.setState({
+      password: text,
+    });
+  };
   SignUp = (email, password) => {
     try {
       if (this.state.username === '' || this.state.password === '') {
@@ -96,7 +104,7 @@ class LoginScreen extends React.Component {
           <View>
             <TextInput
               placeholder="email"
-              onChangeText={text => this.setState({username: text})}
+              onChangeText={text => this.handleEmailText(text)}
               autoCorrect={false}
               value={this.state.username}
               style={styles.login}
@@ -107,7 +115,7 @@ class LoginScreen extends React.Component {
           <View>
             <TextInput
               placeholder="password"
-              onChangeText={text => this.setState({password: text})}
+              onChangeText={text => this.handlePasswordText(text)}
               autoCorrect={false}
               value={this.state.password}
               secureTextEntry
