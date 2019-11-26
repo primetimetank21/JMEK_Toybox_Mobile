@@ -31,6 +31,7 @@ class GameModeScreen extends React.Component {
     this.state = {
       mode: this.props.navigation.state.params.mode,
       points: 0,
+      removeListener: undefined,
       title: this.props.navigation.state.params.title,
       theQuestions: this.props.navigation.state.params.questions,
       theResponses: array1,
@@ -41,26 +42,16 @@ class GameModeScreen extends React.Component {
   _onSubmit = () => {
     var score = 0;
     for (i = 0; i < this.state.theResponses.length; i++) {
-      // console.log("this.state.theResponses["+i+"]= " + this.state.theResponses[i]);
       if(this.state.theResponses[i] === this.state.theQuestions[i].answer) {
-        // console.log("Yes");
         score++;
       }
-      // else {
-      //   console.log("No");
-      // }
     }
 
     this.setState({ points: score });
-    console.log('this.state.points= ' + score);
-
-    // var admin = require('firebase-admin');
-
-    firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).update({
+    this.state.removeListener = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).update({
       points: firebase.firestore.FieldValue.increment(score),
-      //add current score to array containing scores
       gameScores: firebase.firestore.FieldValue.arrayUnion(score)
-    })
+    });
 
     if (score === 0 || score > 1) {
       Alert.alert("You earned " + score + " points!");
@@ -79,7 +70,6 @@ class GameModeScreen extends React.Component {
   }
 
   componentDidMount() {
-    // this.setState({ testTimer: 60000 })
     if(this.state.testTimer <= 0) {
       this._onSubmit();
     }
@@ -92,10 +82,6 @@ class GameModeScreen extends React.Component {
     if(this.state.testTimer <= 0) {
       this._onSubmit();
     }
-  }
-
-  componentWillUnmount() {
-    clearInterval(this._interval);
   }
 
   render() {
@@ -122,7 +108,9 @@ class GameModeScreen extends React.Component {
                         flexDirection: 'column',
                         backgroundColor: 'black',
                       }}>
+
                       <Text style={{ color: 'white', fontSize:15 }}>{item.prompt}</Text>
+
                       <TouchableOpacity onPress={() => this._selectChoice(0, index)}>
                         <Text style={{ color: 'white' }}>A. {item.choices[0]}</Text>
                       </TouchableOpacity>
@@ -136,9 +124,6 @@ class GameModeScreen extends React.Component {
                         <Text style={{ color: 'white' }}>D. {item.choices[3]}</Text>
                       </TouchableOpacity>
 
-                      {/* <Text style={{ color: 'white' }}/> */}
-                      {/* <Text style={{ color: 'white' }}>Correct Answer: {item.choices[item.answer]}</Text> */}
-                      {/* <Text style={{ color: 'blue' }}>key= {index}</Text> */}
                       <Text style={{ color: 'blue' }}>Response= {item.choices[this.state.theResponses[index]]}</Text>
 
                       <View style={{ height: 2, backgroundColor: 'blue' }} />
@@ -154,6 +139,14 @@ class GameModeScreen extends React.Component {
       </View>
   );
 }
+
+componentWillUnmount() {
+  clearInterval(this._interval);
+  this.state.removeListener;
+}
+
+
+
 };
 
 const styles = StyleSheet.create({

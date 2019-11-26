@@ -65,7 +65,7 @@ class LeaderboardScreen extends React.Component {
       <View style={{ flex: 1, alignItems: 'center' }}>
         <SafeAreaView style={{ alignItems: 'center' }}>
           <Text style={{ color: 'red' }}>Leaderboard Screen</Text>
-          <View style={{ flex: 1, alignItems: 'center',/* justifyContent:'center'*/ }}>
+          <View style={{ flex: 1, alignItems: 'center'}}>
 
             <Button title='View Leaderboard' onPress={() => this.getScores()} />
 
@@ -85,15 +85,15 @@ class LeaderboardScreen extends React.Component {
                           flexDirection: 'column',
                           backgroundColor: 'red',
                         }}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                          <Text style={{ color: 'white' }}>{index + 1}. {item.username}:</Text>
-                          <Text style={{ color: 'white', paddingRight: 50 }}>{item.score}</Text>
+                        <View key={key} style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                          <Text key={key} style={{ color: 'white' }}>{index + 1}. {item.username}:</Text>
+                          <Text key={key} style={{ color: 'white', paddingRight: 50 }}>{item.score}</Text>
                         </View>
                         <View style={{ height: 2, backgroundColor: 'blue' }} />
                       </View>
                     );
                   }}
-                  keyExtractor={(item, index) => item.score}
+                  keyExtractor={(item, index) => index.toString()}
                 />
               </View>
 

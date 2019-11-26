@@ -70,7 +70,7 @@ class ProfileScreen extends React.Component {
             this.setState({ username: name });
             this.setState({
               topScores: arr.sort((a, b) => {
-                return (a.score > b.score);
+                return (a < b);
               })
             });
             console.log(this.state.topScores)
@@ -174,7 +174,7 @@ class ProfileScreen extends React.Component {
               );
             }}
 
-            keyExtractor={(item, index) => index.key}
+            keyExtractor={(item, index) => index.toString()}
           />
         }
         {this.state.topScores.length === 0 &&

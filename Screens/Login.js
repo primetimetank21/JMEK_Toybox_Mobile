@@ -23,8 +23,6 @@ import 'firebase/firestore';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
-// import { widthPercentageToDP as wp, heightPercentageToDP as hp, } from 'react-native-responsive-screen';
-
 class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -39,7 +37,6 @@ class LoginScreen extends React.Component {
     firebase.auth().onAuthStateChanged(() => {
       if (firebase.auth().currentUser !== null) {
         if (this.state.count === 0) {
-          Alert.alert('Current user= ' + firebase.auth().currentUser.email);
           const oldCount = this.state.count + 1;
           this.setState({count: oldCount});
         }
