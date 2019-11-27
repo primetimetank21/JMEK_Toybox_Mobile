@@ -8,7 +8,7 @@
  */
 
 import React from 'react';
-import {Button} from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import {
   SafeAreaView,
   StyleSheet,
@@ -21,7 +21,7 @@ import {
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 class LoginScreen extends React.Component {
   constructor(props) {
@@ -29,123 +29,114 @@ class LoginScreen extends React.Component {
     this.state = {
       username: '',
       password: '',
-      count: 0,
     };
   }
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged(() => {
       if (firebase.auth().currentUser !== null) {
-        if (this.state.count === 0) {
-          const oldCount = this.state.count + 1;
-          this.setState({count: oldCount});
-        }
         this.props.navigation.replace('Home');
       }
     });
   }
   /** Function to disable the login button if the username and password field are untouched. */
   //TODO: Disable the Login button if the username/password are incorrect
-  isDisabled() {
-    return this.state.username === '' || this.state.password === '';
+  isDisabled = () => {
+    var disable = true;
+    if (this.state.username !== '' && this.state.password !== '' && this.state.password.length >= 6) {
+      disable = false;
+    }
+    return disable;
   }
 
   render() {
     return (
-      <View style={styles.container}>
-        <SafeAreaView style={{alignItems: 'center'}}>
-          <Text
-            style={{
-              marginRight: 150,
-              marginBottom: 10,
-              color: 'black',
-              fontFamily: 'Avenir-Heavy',
-              fontSize: 50,
-            }}>
-            Hello.
-          </Text>
-          <View>
-            <TextInput
-              placeholder="email"
-              onChangeText={text => this.setState({username: text})}
-              autoCorrect={false}
-              value={this.state.username}
-              style={styles.login}
-            />
-          </View>
-          <View style={{height: 10}} />
+      <SafeAreaView style={{ marginTop: 200, alignItems: 'center', }}>
+        <Text
+          style={{
+            marginRight: 150,
+            marginBottom: 10,
+            color: 'black',
+            fontFamily: 'Avenir-Heavy',
+            fontSize: 50,
+          }}>Hello.</Text>
+        <TextInput
+          placeholder="email"
+          onChangeText={text => this.setState({ username: text })}
+          autoCorrect={false}
+          value={this.state.username}
+          style={styles.login}
+        />
+        <View style={{ height: 10 }} />
 
-          <View>
-            <TextInput
-              placeholder="password"
-              onChangeText={text => this.setState({password: text})}
-              autoCorrect={false}
-              value={this.state.password}
-              secureTextEntry
-              style={styles.login}
-            />
-          </View>
-          <View style={{height: 10}} />
-          <View
-            style={{
-              marginLeft: 175,
-              flexDirection: 'row',
-              alignItems: 'flex-end',
-            }}>
-            <Text
-              style={{color: '#FF595E'}}
-              onPress={() => this.props.navigation.navigate('Forgot')}>
-              Forgot password?
+        <TextInput
+          placeholder="password"
+          onChangeText={text => this.setState({ password: text })}
+          autoCorrect={false}
+          value={this.state.password}
+          secureTextEntry
+          style={styles.login}
+        />
+        <View style={{ height: 10 }} />
+        <View
+          style={{
+            marginLeft: 175,
+            flexDirection: 'row',
+            alignItems: 'flex-end',
+          }}>
+          <Text
+            style={{ color: '#FF595E' }}
+            onPress={() => this.props.navigation.navigate('Forgot')}>
+            Forgot password?
             </Text>
-          </View>
-          <View style={{height: 10}} />
-          <Button
-            color="#ff5c5c"
-            disabled={this.isDisabled()}
-            title="Login"
-            onPress={() => {
-              try {
-                firebase
-                  .auth()
-                  .signInWithEmailAndPassword(
-                    this.state.username,
-                    this.state.password,
-                  )
-                  .then(
-                    () => {
-                      this.props.navigation.replace('Home');
-                    },
-                    error => {
-                      Alert.alert(error.message);
-                    },
-                  )
-                  .catch(function(error) {
-                    console.log(error.message);
-                  });
-              } catch (error) {
-                Alert.alert(error.toString(error));
-                console.log(error.toString(error));
-              }
-            }}
-          />
-          <View style={{height: 10}} />
-          <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
-            <Text>Don't have an account?</Text>
-            <Text
-              style={{color: '#FF595E'}}
-              onPress={() => this.props.navigation.navigate('Register')}>
-              {' '}
-              Sign Up!
+        </View>
+        <View style={{ height: 10 }} />
+        <Button
+          color="#ff5c5c"
+          disabled={this.isDisabled()}
+          title="Login"
+          onPress={() => {
+            try {
+              firebase
+                .auth()
+                .signInWithEmailAndPassword(
+                  this.state.username,
+                  this.state.password,
+                )
+                .then(
+                  () => {
+                    this.props.navigation.replace('Home');
+                  },
+                  error => {
+                    Alert.alert(error.message);
+                  },
+                )
+                .catch(function (error) {
+                  console.log(error.message);
+                });
+            } catch (error) {
+              Alert.alert(error.toString(error));
+              console.log(error.toString(error));
+            }
+          }}
+        />
+        <View style={{ height: 10 }} />
+        <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+          <Text>Don't have an account?</Text>
+          <Text
+            style={{ color: '#FF595E' }}
+            onPress={() => this.props.navigation.navigate('Register')}>
+            {' '}
+            Sign Up!
             </Text>
-          </View>
-        </SafeAreaView>
-      </View>
+        </View>
+      </SafeAreaView>
+
     );
   }
   componentWillUnmount() {
-    this.state.username = '';
-    this.state.password = '';
-    this.state.count = 0;
+    this.state.username;
+    this.state.password;
   }
 }
 
