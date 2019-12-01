@@ -35,6 +35,19 @@ class RegisterScreen extends React.Component {
       count: 0,
     };
   }
+  handleEmailText = text => {
+    this.setState({
+      username: text,
+    });
+  };
+  handlePasswordText = text => {
+    this.setState({
+      password: text,
+    });
+  };
+  handleConfirmPasswordText = text => {
+    this.setState({confirmPassword: text});
+  };
 
   SignUp = (email, password) => {
     try {
@@ -78,11 +91,18 @@ class RegisterScreen extends React.Component {
 
   isDisabled = () => {
     var a = true;
-    if((this.state.username !== '' && this.state.password !== '' && this.state.confirmPassword !== '') && (this.state.password === this.state.confirmPassword) && (this.state.password.length >= 6 && this.state.confirmPassword.length >= 6)) {
+    if (
+      this.state.username !== '' &&
+      this.state.password !== '' &&
+      this.state.confirmPassword !== '' &&
+      this.state.password === this.state.confirmPassword &&
+      (this.state.password.length >= 6 &&
+        this.state.confirmPassword.length >= 6)
+    ) {
       a = false;
     }
-     return a;
-  }
+    return a;
+  };
 
   render() {
     return (

@@ -33,7 +33,6 @@ class LoginScreen extends React.Component {
       count: 0,
     };
   }
-<<<<<<< HEAD
   handleEmailText = text => {
     this.setState({
       username: text,
@@ -69,8 +68,6 @@ class LoginScreen extends React.Component {
       console.log(error.toString(error));
     }
   };
-=======
->>>>>>> a150b953ba151b708b5432d83ea5c402ae06a5db
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged(() => {
@@ -94,16 +91,7 @@ class LoginScreen extends React.Component {
     return (
       <View style={styles.container}>
         <SafeAreaView style={{alignItems: 'center'}}>
-          <Text
-            style={{
-              marginRight: 150,
-              marginBottom: 10,
-              color: 'black',
-              fontFamily: 'Avenir-Heavy',
-              fontSize: 50,
-            }}>
-            Hello.
-          </Text>
+          <Text style={styles.helloText}>Hello.</Text>
           <View>
             <TextInput
               placeholder="email"
@@ -126,21 +114,13 @@ class LoginScreen extends React.Component {
             />
           </View>
           <View style={{height: 10}} />
-          <View
-            style={{
-              marginLeft: 175,
-              flexDirection: 'row',
-              alignItems: 'flex-end',
-            }}>
-            <Text
-              style={{color: '#FF595E'}}
-              onPress={() => this.props.navigation.navigate('Forgot')}>
-              Forgot password?
-            </Text>
-          </View>
+          <Text
+            style={styles.forgotPasswordText}
+            onPress={() => this.props.navigation.navigate('Forgot')}>
+            Forgot password?
+          </Text>
           <View style={{height: 10}} />
           <Button
-            color="#ff5c5c"
             disabled={this.isDisabled()}
             title="Login"
             onPress={() => {
@@ -169,7 +149,7 @@ class LoginScreen extends React.Component {
             }}
           />
           <View style={{height: 10}} />
-          <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+          <View style={styles.registerText}>
             <Text>Don't have an account?</Text>
             <Text
               style={{color: '#FF595E'}}
@@ -215,22 +195,8 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     paddingVertical: 12,
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
   highlight: {
     fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
   },
   login: {
     borderRadius: 10,
@@ -246,7 +212,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#FFFFFF',
-    marginTop: 250,
+  },
+  forgotPasswordText: {
+    marginLeft: 175,
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    color: '#FF595E',
+  },
+  registerText: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+  },
+  helloText: {
+    marginRight: 150,
+    marginBottom: 10,
+    color: 'black',
+    fontFamily: 'Avenir-Heavy',
+    fontSize: 50,
   },
 });
 
