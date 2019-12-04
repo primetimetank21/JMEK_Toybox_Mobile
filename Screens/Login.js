@@ -110,7 +110,9 @@ class LoginScreen extends React.Component {
                   error => {
                     Alert.alert(error.message);
                   },
-                )
+                ).then(() => {
+
+                })
                 .catch(function (error) {
                   console.log(error.message);
                 });

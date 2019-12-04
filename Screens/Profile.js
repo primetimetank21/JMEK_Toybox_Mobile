@@ -3,7 +3,7 @@ import React from 'react';
 import { SafeAreaView, FlatList, ScrollView, View, Text, Button, TouchableOpacity, Alert, TextInput } from 'react-native';
 import { Avatar, Card } from 'react-native-elements';
 import { Header, Left, Body } from 'native-base';
-import  { NavigationActions } from 'react-navigation'
+import { NavigationActions } from 'react-navigation'
 
 import * as firebase from 'firebase';
 import 'firebase/firestore';
@@ -17,7 +17,9 @@ class ProfileScreen extends React.Component {
       change: false,
       username: '',
       topScores: [],
+      myChallenges: [],
       newUsername: '',
+      userRef: firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid),
       thanosSnap: null
     }
   };
@@ -31,9 +33,9 @@ class ProfileScreen extends React.Component {
       username: this.state.newUsername,
     })
 
-      this.setState({ username: this.state.newUsername })
-      this.setState({ newUsername: '' })
-      this.setState({ change: !this.state.change })    
+    this.setState({ username: this.state.newUsername })
+    this.setState({ newUsername: '' })
+    this.setState({ change: !this.state.change })
   };
 
   updatePassword = () => {
@@ -52,10 +54,20 @@ class ProfileScreen extends React.Component {
     }).then(() => {
       Alert.alert('User deleted.');
       setTimeout(() => {
-        firebase.auth().signOut().then(() => {this.props.navigation.reset([NavigationActions.navigate({ routeName: 'Login' })],0)})
+        firebase.auth().signOut().then(() => { this.props.navigation.reset([NavigationActions.navigate({ routeName: 'Login' })], 0) })
       }, 100)
 
     })
+  };
+
+  _refresh = async () => {
+    this.unsubscribe2 = this.state.userRef.collection('my challenges').get().then((snapShot) => {
+      snapShot.forEach(doc => {
+        console.log(doc.id)
+        this.state.myChallenges.push(doc.id);
+      });
+    });
+
   };
 
   componentDidMount() {
@@ -76,10 +88,16 @@ class ProfileScreen extends React.Component {
             console.log(this.state.topScores)
           }
         })
-        // this.setState({ reloadCount: this.state.reloadCount++ })
+
         return this.setState({ thanosSnap: this.unsubscribe() })
       })
-      this.setState({ reload: false })
+      this.unsubscribe2 = this._refresh().then(() => {
+        this.setState({ reload: false })
+
+      })
+
+
+
     };
   }
 
@@ -148,6 +166,23 @@ class ProfileScreen extends React.Component {
                   }}
                 />
                 <Button
+                  title='create challenge'
+                  style={{ height: 30, }}
+                  onPress={() => this.props.navigation.navigate('Challenge')}
+                />
+              </View>
+
+
+              <View style={{ flexDirection: 'row' }}>
+                <Text
+                  style={{
+                    width: 100,
+                    height: 40,
+                    textAlign: 'center',
+                    color: 'rgba(365,0,0,0.7)'
+                  }}
+                />
+                <Button
                   title='delete account'
                   style={{ height: 30, }}
                   onPress={() => this.deleteAccount()}
@@ -178,7 +213,7 @@ class ProfileScreen extends React.Component {
           />
         }
         {this.state.topScores.length === 0 &&
-            <Text style={{ textAlign: 'center', fontSize: 50 }}>No Scores to Display</Text>
+          <Text style={{ textAlign: 'center', fontSize: 50 }}>No Scores to Display</Text>
         }
 
         <TouchableOpacity style={{ alignItems: 'center', paddingTop: 10 }} onPress={() => this.props.navigation.navigate('Leaderboard')} >
@@ -187,7 +222,34 @@ class ProfileScreen extends React.Component {
           </Text>
         </TouchableOpacity>
 
-        <View style={{ flex: 3 }} />
+        <View style={{ flex: 3 }}>
+          <Text style={{ textAlign: 'center', fontSize: 30, fontFamily: 'Avenir-Heavy' }}>My Challenges</Text>
+          <FlatList
+            data={this.state.myChallenges}
+            style={{ flexDirection: 'column', alignContent: 'center' }}
+            renderItem={({ item, key, index }) => {
+              return (
+                <View index={index} key={key} style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                  <Text style={{ textAlign: 'center', fontSize: 20, paddingTop: 5 }}>{this.state.myChallenges[index]}</Text>
+                  <Button index={index} title={'delete' /*+ this.state.myChallenges[index]*/} size={20} onPress={async () => {
+                    // Alert.alert('deleting ' + this.state.myChallenges[index]);
+                    // this.unsubscribe3 = firebase.firestore().collection('questions').doc(this.state.myChallenges[index]).collection('questions').delete();
+                    this.unsubscribe4 = firebase.firestore().collection('questions').doc(this.state.myChallenges[index]).delete()
+                    this.unsubscribe5 = firebase.firestore().collection('user categories').doc(this.state.myChallenges[index]).delete()
+                    this.unsubscribe6 = this.state.userRef.collection('my challenges').doc(this.state.myChallenges[index]).delete()
+
+                    Alert.alert('challenge deleted')
+                    this._refresh();
+
+                  }} />
+                </View>
+              )
+            }}
+            keyExtractor={(item, index) => index.toString()}
+          />
+        </View>
+
+
       </SafeAreaView>
 
     );
@@ -195,6 +257,11 @@ class ProfileScreen extends React.Component {
 
   componentWillUnmount() {
     this.state.thanosSnap;
+    this.unsubscribe2;
+    // this.unsubscribe3;
+    this.unsubscribe4;
+    this.unsubscribe5;
+    this.unsubscribe6;
   }
 }
 

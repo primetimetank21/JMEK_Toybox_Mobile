@@ -25,10 +25,13 @@ class GameModeScreen extends React.Component {
   constructor(props) {
     super(props);
     let array1 = [];
-    for(i = 0; i < 10; i++) {
+    let hiddenArr = [];
+    for (i = 0; i < 10; i++) {
       array1.push(NaN)
+      hiddenArr.push[true]
     }
     this.state = {
+      hidden: hiddenArr,
       mode: this.props.navigation.state.params.mode,
       points: 0,
       removeListener: undefined,
@@ -41,9 +44,11 @@ class GameModeScreen extends React.Component {
 
   _onSubmit = () => {
     var score = 0;
-    for (i = 0; i < this.state.theResponses.length; i++) {
-      if(this.state.theResponses[i] === this.state.theQuestions[i].answer) {
-        score++;
+    for (i = 0; i < this.state.theQuestions.length; i++) {
+      if (this.state.theQuestions[i].answer !== undefined) {
+        if (this.state.theResponses[i] === this.state.theQuestions[i].answer) {
+          score++;
+        }
       }
     }
 
@@ -70,7 +75,7 @@ class GameModeScreen extends React.Component {
   }
 
   componentDidMount() {
-    if(this.state.testTimer <= 0) {
+    if (this.state.testTimer <= 0) {
       this._onSubmit();
     }
     this._interval = setInterval(() => {
@@ -79,21 +84,21 @@ class GameModeScreen extends React.Component {
   }
 
   componentDidUpdate() {
-    if(this.state.testTimer <= 0) {
+    if (this.state.testTimer <= 0) {
       this._onSubmit();
     }
   }
 
   render() {
-  return (
-    <View style={{ flex:1, alignItems: 'center' }}>
+    return (
+      <View style={{ flex: 1, alignItems: 'center' }}>
 
-      <SafeAreaView style={{ alignItems:'center' }}>
-      <Text style={{ color:'blue', paddingBottom:20 }}>{this.state.mode}player Quiz about {this.state.title}</Text>
+        <SafeAreaView style={{ alignItems: 'center' }}>
+          <Text style={{ color: 'blue', paddingBottom: 20 }}>{this.state.mode}player Quiz about {this.state.title}</Text>
 
-         <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }}>
-            <View style={{ alignItems:'center' }}>
-            <Text style={{ color:'red', paddingBottom:10 }}>Time remaining: {this.state.testTimer / 1000} seconds</Text>
+          <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }}>
+            <View style={{ alignItems: 'center' }}>
+              <Text style={{ color: 'red', paddingBottom: 10 }}>Time remaining: {this.state.testTimer / 1000} seconds</Text>
 
               <FlatList
                 data={this.state.theQuestions}
@@ -109,7 +114,7 @@ class GameModeScreen extends React.Component {
                         backgroundColor: 'black',
                       }}>
 
-                      <Text style={{ color: 'white', fontSize:15 }}>{item.prompt}</Text>
+                      <Text style={{ color: 'white', fontSize: 15 }}>{item.prompt}</Text>
 
                       <TouchableOpacity onPress={() => this._selectChoice(0, index)}>
                         <Text style={{ color: 'white' }}>A. {item.choices[0]}</Text>
@@ -124,6 +129,20 @@ class GameModeScreen extends React.Component {
                         <Text style={{ color: 'white' }}>D. {item.choices[3]}</Text>
                       </TouchableOpacity>
 
+                      <View style={{ flexDirection: 'row' }}>
+                        <TouchableOpacity onPress={() => {
+                          this.state.hidden[index] = !this.state.hidden[index];
+                        }
+                        }>
+                          <Text style={{ color: 'white' }}>See hint... </Text>
+                        </TouchableOpacity>
+                        {this.state.hidden[index] &&
+                          <View>
+                            <Text style={{ color: 'white', opacity: .3 }}> = {item.choices[item.answer]}</Text>
+                          </View>
+                        }
+                      </View>
+
                       <Text style={{ color: 'blue' }}>Response= {item.choices[this.state.theResponses[index]]}</Text>
 
                       <View style={{ height: 2, backgroundColor: 'blue' }} />
@@ -133,17 +152,17 @@ class GameModeScreen extends React.Component {
                 keyExtractor={(item, index) => item.prompt}
               />
             </View>
-            <Button title='submit' onPress={this._onSubmit}/>
+            <Button title='submit' onPress={this._onSubmit} />
           </View>
-      </SafeAreaView>
+        </SafeAreaView>
       </View>
-  );
-}
+    );
+  }
 
-componentWillUnmount() {
-  clearInterval(this._interval);
-  this.state.removeListener;
-}
+  componentWillUnmount() {
+    clearInterval(this._interval);
+    this.state.removeListener;
+  }
 
 
 

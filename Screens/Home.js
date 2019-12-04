@@ -8,15 +8,16 @@ import {
   Alert,
   Button,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
-import {Header, Left, Body, Title, Right} from 'native-base';
+import { Header, Left, Body, Title, Right } from 'native-base';
 
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 
-import {Avatar, ListItem} from 'react-native-elements';
+import { Avatar, ListItem } from 'react-native-elements';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 // import { Header } from 'react-navigation-stack';
 
 const list = [
@@ -50,11 +51,11 @@ const list = [
     avatar_url:
       'https://cdn.shopify.com/s/files/1/0712/4751/products/SMA-01_2000x.jpg?v=1571438902',
   },
-  {
-    name: 'U.S. Colleges',
-    avatar_url:
-      'https://yt3.ggpht.com/a/AGF-l798ef0U-LpPD9xUpkHmpJ3mpAaXCbVLvAWuUg=s900-c-k-c0xffffffff-no-rj-mo',
-  },
+  // {
+  //   name: 'U.S. Colleges',
+  //   avatar_url:
+  //     'https://yt3.ggpht.com/a/AGF-l798ef0U-LpPD9xUpkHmpJ3mpAaXCbVLvAWuUg=s900-c-k-c0xffffffff-no-rj-mo',
+  // },
   {
     name: 'Video Games',
     avatar_url: 'https://ak9.picdn.net/shutterstock/videos/30876589/thumb/6.jpg',
@@ -62,58 +63,106 @@ const list = [
 ];
 
 class HomeScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    // this.unsubscribe = firebase.firestore().collection('questions').get().then( (snapShot) => {
+    //   snapShot.forEach(doc => {
+    //     console.log(doc.id)
+    //     tmpArr.push(doc.id);
+    //   });
+    // })
+    this.state = {
+      userGeneratedCategories: [],
+      refresh: true,
+    }
+
+  }
+
+  _refresh = async () => {
+    this.setState({ userGeneratedCategories: [] })
+    this.unsubscribe = await firebase.firestore().collection('user categories').get().then((snapShot) => {
+      snapShot.forEach(doc => {
+        console.log(doc.id)
+        this.state.userGeneratedCategories.push(doc.id);
+      });
+      console.log('this.state.cates= ')
+      for (elm in this.state.userGeneratedCategories) {
+        console.log(this.state.userGeneratedCategories[elm]);
+      }
+
+    }).then(() => {
+
+      this.setState({ refresh: true })
+
+    })
+
+
+  }
+  componentDidMount() {
+
+    if (this.state.refresh === true) {
+      this.setState({ refresh: false })
+    }
+
+    if (this.state.userGeneratedCategories.length === 0) {
+      this._refresh();
+    }
+
+  }
   render() {
     return (
-      <SafeAreaView style={{flex:1, alignContent:'center', justifyContent:'center' }}>
+      <SafeAreaView style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }}>
 
-      <View style={{ flex: .05, flexDirection: 'row', alignContent:'center', alignItems:'center', justifyContent:'center', paddingBottom:30}}>
-        <Header style={{ width:370, alignContent:'center', justifyContent:'center', alignItems:'center' }}>
-          <Left style={{  }}>
-            <Button style={{  }}
-              title="log out"
-              onPress={() => {
-                firebase
-                  .auth()
-                  .signOut()
-                  .then(this.props.navigation.replace('Login'))
-                  .then(() => {
-                    Alert.alert('Signed out!');
-                  });
-              }}
-            />
-          </Left>
+        <View style={{ flex: .05, flexDirection: 'row', alignContent: 'center', alignItems: 'center', justifyContent: 'center', paddingBottom: 30 }}>
+          <Header style={{ width: 370, alignContent: 'center', justifyContent: 'center', alignItems: 'center' }}>
+            <Left style={{}}>
+              <Button style={{}}
+                title="log out"
+                onPress={() => {
+                  firebase
+                    .auth()
+                    .signOut()
+                    .then(this.props.navigation.replace('Login'))
+                    .then(() => {
+                      Alert.alert('Signed out!');
+                    });
+                }}
+              />
+            </Left>
 
-          <Body style={{  }}>
-            <Title style={{ }}>Home</Title>
-          </Body>
+            <Body style={{}}>
+              <TouchableOpacity onPress={() => this._refresh()}>
+                <Title style={{}}>Home</Title>
+              </TouchableOpacity>
+            </Body>
 
-          <Right style={{  }}>
-            <Avatar //style={{ flex:1 }}
-              rounded
-              title="Prof"
-              onPress={() => this.props.navigation.navigate('Profile')}
-            />
-          </Right>
-        </Header>
+            <Right style={{}}>
+              <Avatar //style={{ flex:1 }}
+                rounded
+                title="Prof"
+                onPress={() => this.props.navigation.navigate('Profile')}
+              />
+            </Right>
+          </Header>
         </View>
 
-        <ScrollView style={{ flex:1 }}>
-            <View style={{alignItems: 'center'}}>
-              <Text style={{fontSize: 30, fontFamily: 'Avenir-Heavy'}}>
-                Categories
+        <View style={{ flex: 1 }}>
+          <View style={{ alignItems: 'center' }}>
+            <Text style={{ fontSize: 30, fontFamily: 'Avenir-Heavy' }}>
+              Categories
               </Text>
-            </View>
-            <View>
+          </View>
+          <ScrollView style={{ flex: 1 }}>
 
-              {
-                list.map((l, i) => (
-                  <TouchableOpacity key={i} onPress={() => {
-                    this.props.navigation.replace('GameType', { titleRef: l.name });
+            {
+              list.map((l, i) => (
+                <TouchableOpacity key={i} onPress={() => {
+                  this.props.navigation.replace('GameType', { titleRef: l.name });
 
-                  }}>
+                }}>
                   <ListItem
                     key={i}
-                    leftAvatar={{source: {uri: l.avatar_url}}}
+                    leftAvatar={{ source: { uri: l.avatar_url } }}
                     title={<Text>{l.name}</Text>}
                     subtitle={l.subtitle}
                     topDivider
@@ -121,12 +170,48 @@ class HomeScreen extends React.Component {
                   />
                 </TouchableOpacity>
               ))}
+          </ScrollView>
+          <View style={{ height: 3, backgroundColor: 'red' }} />
+          <View style={{ flex: 1 }}>
+            <View style={{ alignItems: 'center' }}>
+              <Text style={{ fontSize: 30, fontFamily: 'Avenir-Heavy' }}>User Challenges</Text>
             </View>
-        </ScrollView>
+
+            <FlatList
+              data={this.state.userGeneratedCategories}
+              // style={{ flexDirection:'column-reverse', transform: [{ scaleY: -1 }] }}
+              renderItem={({ item, key, index }) => {
+                return (
+                  <View>
+                    <View style={{ height: 1, backgroundColor: 'gray', opacity:0.3 }} />
+                    <TouchableOpacity
+                      key={index}
+                      onPress={() => {
+                        this.props.navigation.replace('GameType', { titleRef: this.state.userGeneratedCategories[index] });
+                      }}>
+                      <Text
+                        key={index}
+                        style={{ textAlign: 'center', fontSize: 20 }}
+                      >{this.state.userGeneratedCategories[index]}</Text>
+                    </TouchableOpacity>
+                    <View style={{ height: 1, backgroundColor: 'gray', opacity:0.3 }} />
+                  </View>
+                )
+              }}
+              keyExtractor={(item, index) => index.toString()}
+            />
+
+          </View>
+        </View>
       </SafeAreaView>
 
     );
   }
+
+  componentWillUnmount() {
+    this.unsubscribe;
+  }
+
 }
 
 export default HomeScreen;
