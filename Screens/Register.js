@@ -91,6 +91,7 @@ class RegisterScreen extends React.Component {
 
   isDisabled = () => {
     var a = true;
+<<<<<<< HEAD
     if (
       this.state.username !== '' &&
       this.state.password !== '' &&
@@ -99,6 +100,14 @@ class RegisterScreen extends React.Component {
       (this.state.password.length >= 6 &&
         this.state.confirmPassword.length >= 6)
     ) {
+=======
+    if((this.state.username !== '' && this.state.password !== '' &&
+        this.state.confirmPassword !== '') &&
+       (this.state.password === this.state.confirmPassword) &&
+       (this.state.password.length >= 6 &&
+        this.state.confirmPassword.length >= 6)
+      ) {
+>>>>>>> eba3a391ae41275c9e9ee853ef4598368da0b10f
       a = false;
     }
     return a;

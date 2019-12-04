@@ -47,6 +47,7 @@ const list = [
 class HomeScreen extends React.Component {
   render() {
     return (
+<<<<<<< HEAD
       <SafeAreaView
         style={{flex: 1, alignContent: 'center', justifyContent: 'center'}}>
         <View
@@ -60,6 +61,29 @@ class HomeScreen extends React.Component {
           }}>
           <Body style={{justifyContent: 'center'}}>
             <Title style={styles.font}>Home</Title>
+=======
+      <SafeAreaView style={{flex:1, alignContent:'center', justifyContent:'center' }}>
+
+      <View style={{ flex: .05, flexDirection: 'row', alignContent:'center', alignItems:'center', justifyContent:'center', paddingBottom:30}}>
+        <Header style={{ width:370, alignContent:'center', justifyContent:'center', alignItems:'center' }}>
+          <Left style={{  }}>
+            <Button style={{  }}
+              title="Log out"
+              onPress={() => {
+                firebase
+                  .auth()
+                  .signOut()
+                  .then(this.props.navigation.replace('Login'))
+                  .then(() => {
+                    Alert.alert('Signed out!');
+                  });
+              }}
+            />
+          </Left>
+
+          <Body style={{  }}>
+            <Title style={{ }}>Home</Title>
+>>>>>>> eba3a391ae41275c9e9ee853ef4598368da0b10f
           </Body>
 
           <Right style={{}}>

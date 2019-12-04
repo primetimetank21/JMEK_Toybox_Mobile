@@ -32,6 +32,10 @@ class LoginScreen extends React.Component {
       count: 0,
     };
   }
+<<<<<<< HEAD
+=======
+
+>>>>>>> eba3a391ae41275c9e9ee853ef4598368da0b10f
   handleEmailText = text => {
     this.setState({
       username: text,
