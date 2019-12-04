@@ -23,10 +23,18 @@ class GameModeScreen extends React.Component {
   constructor(props) {
     super(props);
     let array1 = [];
+<<<<<<< HEAD
     for (i = 0; i < 10; i++) {
       array1.push(NaN);
+=======
+    let hiddenArr = [];
+    for (i = 0; i < 10; i++) {
+      array1.push(NaN)
+      hiddenArr.push[true]
+>>>>>>> a7bd3916fbf65808a5ae10a2d5270367c03929a2
     }
     this.state = {
+      hidden: hiddenArr,
       mode: this.props.navigation.state.params.mode,
       points: 0,
       removeListener: undefined,
@@ -39,9 +47,17 @@ class GameModeScreen extends React.Component {
 
   _onSubmit = () => {
     var score = 0;
+<<<<<<< HEAD
     for (i = 0; i < this.state.theResponses.length; i++) {
       if (this.state.theResponses[i] === this.state.theQuestions[i].answer) {
         score++;
+=======
+    for (i = 0; i < this.state.theQuestions.length; i++) {
+      if (this.state.theQuestions[i].answer !== undefined) {
+        if (this.state.theResponses[i] === this.state.theQuestions[i].answer) {
+          score++;
+        }
+>>>>>>> a7bd3916fbf65808a5ae10a2d5270367c03929a2
       }
     }
 
@@ -87,6 +103,7 @@ class GameModeScreen extends React.Component {
 
   render() {
     return (
+<<<<<<< HEAD
       <View style={{flex: 1, alignItems: 'center'}}>
         <SafeAreaView style={{alignItems: 'center'}}>
           <Text style={{color: 'blue', paddingBottom: 20}}>
@@ -99,6 +116,16 @@ class GameModeScreen extends React.Component {
               <Text style={{color: 'red', paddingBottom: 10}}>
                 Time remaining: {this.state.testTimer / 1000} seconds
               </Text>
+=======
+      <View style={{ flex: 1, alignItems: 'center' }}>
+
+        <SafeAreaView style={{ alignItems: 'center' }}>
+          <Text style={{ color: 'blue', paddingBottom: 20 }}>{this.state.mode}player Quiz about {this.state.title}</Text>
+
+          <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }}>
+            <View style={{ alignItems: 'center' }}>
+              <Text style={{ color: 'red', paddingBottom: 10 }}>Time remaining: {this.state.testTimer / 1000} seconds</Text>
+>>>>>>> a7bd3916fbf65808a5ae10a2d5270367c03929a2
 
               <FlatList
                 data={this.state.theQuestions}
@@ -113,6 +140,7 @@ class GameModeScreen extends React.Component {
                         flexDirection: 'column',
                         backgroundColor: 'black',
                       }}>
+<<<<<<< HEAD
                       <Text style={{color: 'white', fontSize: 15}}>
                         {item.prompt}
                       </Text>
@@ -122,6 +150,13 @@ class GameModeScreen extends React.Component {
                         <Text style={{color: 'white'}}>
                           A. {item.choices[0]}
                         </Text>
+=======
+
+                      <Text style={{ color: 'white', fontSize: 15 }}>{item.prompt}</Text>
+
+                      <TouchableOpacity onPress={() => this._selectChoice(0, index)}>
+                        <Text style={{ color: 'white' }}>A. {item.choices[0]}</Text>
+>>>>>>> a7bd3916fbf65808a5ae10a2d5270367c03929a2
                       </TouchableOpacity>
                       <TouchableOpacity
                         onPress={() => this._selectChoice(1, index)}>
@@ -142,9 +177,27 @@ class GameModeScreen extends React.Component {
                         </Text>
                       </TouchableOpacity>
 
+<<<<<<< HEAD
                       <Text style={{color: 'blue'}}>
                         Response= {item.choices[this.state.theResponses[index]]}
                       </Text>
+=======
+                      <View style={{ flexDirection: 'row' }}>
+                        <TouchableOpacity onPress={() => {
+                          this.state.hidden[index] = !this.state.hidden[index];
+                        }
+                        }>
+                          <Text style={{ color: 'white' }}>See hint... </Text>
+                        </TouchableOpacity>
+                        {this.state.hidden[index] &&
+                          <View>
+                            <Text style={{ color: 'white', opacity: .3 }}> = {item.choices[item.answer]}</Text>
+                          </View>
+                        }
+                      </View>
+
+                      <Text style={{ color: 'blue' }}>Response= {item.choices[this.state.theResponses[index]]}</Text>
+>>>>>>> a7bd3916fbf65808a5ae10a2d5270367c03929a2
 
                       <View style={{height: 2, backgroundColor: 'blue'}} />
                     </View>
@@ -153,7 +206,11 @@ class GameModeScreen extends React.Component {
                 keyExtractor={(item, index) => item.prompt}
               />
             </View>
+<<<<<<< HEAD
             <Button title="submit" onPress={this._onSubmit} />
+=======
+            <Button title='submit' onPress={this._onSubmit} />
+>>>>>>> a7bd3916fbf65808a5ae10a2d5270367c03929a2
           </View>
         </SafeAreaView>
       </View>
@@ -164,7 +221,10 @@ class GameModeScreen extends React.Component {
     clearInterval(this._interval);
     this.state.removeListener;
   }
+<<<<<<< HEAD
 }
+=======
+>>>>>>> a7bd3916fbf65808a5ae10a2d5270367c03929a2
 
 const styles = StyleSheet.create({
   scrollView: {

@@ -45,6 +45,52 @@ const list = [
 ];
 
 class HomeScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    // this.unsubscribe = firebase.firestore().collection('questions').get().then( (snapShot) => {
+    //   snapShot.forEach(doc => {
+    //     console.log(doc.id)
+    //     tmpArr.push(doc.id);
+    //   });
+    // })
+    this.state = {
+      userGeneratedCategories: [],
+      refresh: true,
+    }
+
+  }
+
+  _refresh = async () => {
+    this.setState({ userGeneratedCategories: [] })
+    this.unsubscribe = await firebase.firestore().collection('user categories').get().then((snapShot) => {
+      snapShot.forEach(doc => {
+        console.log(doc.id)
+        this.state.userGeneratedCategories.push(doc.id);
+      });
+      console.log('this.state.cates= ')
+      for (elm in this.state.userGeneratedCategories) {
+        console.log(this.state.userGeneratedCategories[elm]);
+      }
+
+    }).then(() => {
+
+      this.setState({ refresh: true })
+
+    })
+
+
+  }
+  componentDidMount() {
+
+    if (this.state.refresh === true) {
+      this.setState({ refresh: false })
+    }
+
+    if (this.state.userGeneratedCategories.length === 0) {
+      this._refresh();
+    }
+
+  }
   render() {
     return (
       <SafeAreaView
@@ -73,13 +119,32 @@ class HomeScreen extends React.Component {
         </View>
 
         <ScrollView style={{flex: 1}}>
+        <View style={{ alignItems: 'center' }}>
+            <Text style={{ fontSize: 30, fontFamily: 'Avenir-Heavy' }}>
+              Categories
+              </Text>
+          </View>
           <View>
             <CardList navigation={this.props.navigation} cards={list} />
+            
           </View>
         </ScrollView>
+        <View style={{ alignItems: 'center' }}>
+              <Text style={{ fontSize: 30, fontFamily: 'Avenir-Heavy' }}>User Challenges</Text>
+            </View>
+        <ScrollView {{flex: 1}}>
+        <CardList navigation={this.props.navigation} cards={this.userGeneratedCategories} />
+        </ScrollView>
+
       </SafeAreaView>
-    );
+
+            
+  )}
+
+  componentWillUnmount() {
+    this.unsubscribe;
   }
+
 }
 
 export default HomeScreen;

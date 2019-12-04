@@ -163,9 +163,57 @@ class LoginScreen extends React.Component {
               {' '}
               Sign Up!
             </Text>
+<<<<<<< HEAD
           </View>
         </SafeAreaView>
       </View>
+=======
+        </View>
+        <View style={{ height: 10 }} />
+        <Button
+          color="#ff5c5c"
+          disabled={this.isDisabled()}
+          title="Login"
+          onPress={() => {
+            try {
+              firebase
+                .auth()
+                .signInWithEmailAndPassword(
+                  this.state.username,
+                  this.state.password,
+                )
+                .then(
+                  () => {
+                    this.props.navigation.replace('Home');
+                  },
+                  error => {
+                    Alert.alert(error.message);
+                  },
+                ).then(() => {
+
+                })
+                .catch(function (error) {
+                  console.log(error.message);
+                });
+            } catch (error) {
+              Alert.alert(error.toString(error));
+              console.log(error.toString(error));
+            }
+          }}
+        />
+        <View style={{ height: 10 }} />
+        <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+          <Text>Don't have an account?</Text>
+          <Text
+            style={{ color: '#FF595E' }}
+            onPress={() => this.props.navigation.navigate('Register')}>
+            {' '}
+            Sign Up!
+            </Text>
+        </View>
+      </SafeAreaView>
+
+>>>>>>> a7bd3916fbf65808a5ae10a2d5270367c03929a2
     );
   }
   componentWillUnmount() {

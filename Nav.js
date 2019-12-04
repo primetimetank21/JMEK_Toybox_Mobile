@@ -10,6 +10,7 @@ import GameTypeScreen from './Screens/GameType';
 import GameModeScreen from './Screens/GameMode';
 import ProfileScreen from './Screens/Profile';
 import RegisterScreen from './Screens/Register';
+import CreateChallengeScreen from './Screens/CreateChalllenge';
 
 
 // firebase.initializeApp(FirebaseConfig);
@@ -24,6 +25,7 @@ const MainNavigator = createStackNavigator({
   GameMode: {screen: GameModeScreen},
   Profile: {screen: ProfileScreen},
   Register: {screen: RegisterScreen},
+  Challenge: {screen: CreateChallengeScreen}
 });
 
 const App = createAppContainer(MainNavigator);
