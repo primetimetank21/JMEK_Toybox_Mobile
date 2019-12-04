@@ -70,7 +70,7 @@ class HomeScreen extends React.Component {
         <Header style={{ width:370, alignContent:'center', justifyContent:'center', alignItems:'center' }}>
           <Left style={{  }}>
             <Button style={{  }}
-              title="log out"
+              title="Log out"
               onPress={() => {
                 firebase
                   .auth()
@@ -169,4 +169,3 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
 });
-
