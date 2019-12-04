@@ -6,12 +6,11 @@ import {
   ScrollView,
   View,
   Text,
-  Button,
   TouchableOpacity,
   Alert,
   TextInput,
 } from 'react-native';
-import {Avatar, Card} from 'react-native-elements';
+import {Avatar, Card, Button} from 'react-native-elements';
 import {Header, Left, Body} from 'native-base';
 import {NavigationActions} from 'react-navigation';
 
@@ -190,19 +189,19 @@ class ProfileScreen extends React.Component {
                   onPress={() => this.deleteAccount()}
                 />
 
-            <Button style={{  }}
-              title="log out"
-              onPress={() => {
-                firebase
-                  .auth()
-                  .signOut()
-                  .then(this.props.navigation.replace('Login'))
-                  .then(() => {
-                    Alert.alert('Signed out!');
-                  });
-              }}
-            />
-
+                <Button
+                  style={{}}
+                  title="log out"
+                  onPress={() => {
+                    firebase
+                      .auth()
+                      .signOut()
+                      .then(this.props.navigation.replace('Login'))
+                      .then(() => {
+                        Alert.alert('Signed out!');
+                      });
+                  }}
+                />
               </View>
             </View>
           )}
@@ -242,6 +241,12 @@ class ProfileScreen extends React.Component {
             See Leaderboard
           </Text>
         </TouchableOpacity>
+        <Button
+          danger
+          type="outline"
+          title="delete account"
+          onPress={() => this.deleteAccount()}
+        />
 
         <View style={{flex: 3}} />
       </SafeAreaView>

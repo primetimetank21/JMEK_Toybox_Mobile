@@ -358,14 +358,10 @@ PODS:
     - React-cxxreact (= 0.61.2)
     - React-jsi (= 0.61.2)
     - ReactCommon/jscallinvoker (= 0.61.2)
-<<<<<<< HEAD
   - RNGestureHandler (1.5.2):
     - React
   - RNGoogleSignin (3.0.3):
     - GoogleSignIn (~> 5.0.0)
-=======
-  - RNGestureHandler (1.5.1):
->>>>>>> eba3a391ae41275c9e9ee853ef4598368da0b10f
     - React
   - RNVectorIcons (6.6.0):
     - React
@@ -411,10 +407,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-<<<<<<< HEAD
     - AppAuth
-=======
->>>>>>> eba3a391ae41275c9e9ee853ef4598368da0b10f
     - boost-for-react-native
     - BoringSSL-GRPC
     - Firebase
@@ -548,12 +541,8 @@ SPEC CHECKSUMS:
   React-RCTText: e3ef6191cdb627855ff7fe8fa0c1e14094967fb8
   React-RCTVibration: fb54c732fd20405a76598e431aa2f8c2bf527de9
   ReactCommon: 5848032ed2f274fcb40f6b9ec24067787c42d479
-<<<<<<< HEAD
   RNGestureHandler: 946a7691e41df61e2c4b1884deab41a4cdc3afff
   RNGoogleSignin: a10b849c165088c737d4465de6c2062f24d06002
-=======
-  RNGestureHandler: 7add966bb5d90ee8cf38d4341f87814474357972
->>>>>>> eba3a391ae41275c9e9ee853ef4598368da0b10f
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   Yoga: 14927e37bd25376d216b150ab2a561773d57911f
 
