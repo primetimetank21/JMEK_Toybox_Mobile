@@ -17,7 +17,6 @@ import {
   Alert,
   TextInput,
 } from 'react-native';
-
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
@@ -83,10 +82,17 @@ class LoginScreen extends React.Component {
   }
   /** Function to disable the login button if the username and password field are untouched. */
   //TODO: Disable the Login button if the username/password are incorrect
-  isDisabled() {
-    return this.state.username === '' || this.state.password === '';
-  }
-
+  isDisabled = () => {
+    var disable = true;
+    if (
+      this.state.username !== '' &&
+      this.state.password !== '' &&
+      this.state.password.length >= 6
+    ) {
+      disable = false;
+    }
+    return disable;
+  };
   render() {
     return (
       <View style={styles.container}>
@@ -163,9 +169,8 @@ class LoginScreen extends React.Component {
     );
   }
   componentWillUnmount() {
-    this.state.username = '';
-    this.state.password = '';
-    this.state.count = 0;
+    this.state.username;
+    this.state.password;
   }
 }
 
