@@ -66,7 +66,7 @@ class RegisterScreen extends React.Component {
               username: this.state.username,
               email: this.state.username,
               points: 0,
-              gameScores: []
+              gameScores: [],
             });
           console.log(user);
         });
@@ -113,6 +113,7 @@ class RegisterScreen extends React.Component {
             justifyContent: 'center',
             marginBottom: 200,
           }}>
+            <Text style={styles.toyboxText}>Toybox</Text>
           <Text
             style={{
               marginRight: 80,
@@ -128,7 +129,7 @@ class RegisterScreen extends React.Component {
               placeholder="email"
               // eslint-disable-next-line prettier/prettier
               onChangeText={(text) => {
-                this.setState({ username: text })
+                this.setState({username: text});
               }}
               autoCorrect={false}
               value={this.state.username}
@@ -140,8 +141,8 @@ class RegisterScreen extends React.Component {
           <View>
             <TextInput
               placeholder="password"
-              onChangeText={(text) =>  {
-                this.setState({password: text})
+              onChangeText={text => {
+                this.setState({password: text});
               }}
               autoCorrect={false}
               value={this.state.password}
@@ -153,7 +154,7 @@ class RegisterScreen extends React.Component {
           <View>
             <TextInput
               placeholder="confirm password"
-              onChangeText={(text) => this.setState({confirmPassword: text})}
+              onChangeText={text => this.setState({confirmPassword: text})}
               autoCorrect={false}
               value={this.state.confirmPassword}
               secureTextEntry
@@ -261,6 +262,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#FFFFFF',
     marginTop: 250,
+  },
+  toyboxText: {
+    alignItems: 'center',
+    marginBottom: 10,
+    color: '#29AAA9',
+    fontFamily: 'Avenir-Heavy',
+    fontSize: 60,
   },
 });
 

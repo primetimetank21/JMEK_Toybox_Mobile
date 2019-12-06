@@ -15,6 +15,7 @@ export class ItemCard extends React.Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
     picture: PropTypes.any.isRequired,
+    createdby: PropTypes.string.isRequired,
     selected: PropTypes.bool,
     height: PropTypes.number,
     maxHeight: PropTypes.number,
@@ -114,6 +115,7 @@ export class ItemCard extends React.Component {
             <Text style={[styles.text, this.props.textStyle]}>
               {this.props.title}
             </Text>
+            <Text>{this.props.createdBy}</Text>
             {this.props.selected ? (
               <TouchableWithoutFeedback onPress={this.props.onClose}>
                 <View
@@ -127,12 +129,6 @@ export class ItemCard extends React.Component {
               </TouchableWithoutFeedback>
             ) : null}
           </ImageBackground>
-
-          {this.props.selected ? (
-            <View style={{flex: 1, padding: 20}}>
-              {this.props.content || <Text>COntent!</Text>}
-            </View>
-          ) : null}
         </Animated.View>
       </TouchableOpacity>
     );
@@ -143,7 +139,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     borderRadius: 10,
-    backgroundColor: 'rgb(240, 240, 240)',
+    backgroundColor: '#FF595E',
     margin: 20,
     padding: 0,
   },

@@ -23,15 +23,10 @@ class GameModeScreen extends React.Component {
   constructor(props) {
     super(props);
     let array1 = [];
-<<<<<<< HEAD
-    for (i = 0; i < 10; i++) {
-      array1.push(NaN);
-=======
     let hiddenArr = [];
     for (i = 0; i < 10; i++) {
-      array1.push(NaN)
-      hiddenArr.push[true]
->>>>>>> a7bd3916fbf65808a5ae10a2d5270367c03929a2
+      array1.push(NaN);
+      hiddenArr.push[true];
     }
     this.state = {
       hidden: hiddenArr,
@@ -41,23 +36,17 @@ class GameModeScreen extends React.Component {
       title: this.props.navigation.state.params.title,
       theQuestions: this.props.navigation.state.params.questions,
       theResponses: array1,
-      testTimer: 30000,
+      testTimer: 60000,
     };
   }
 
   _onSubmit = () => {
     var score = 0;
-<<<<<<< HEAD
-    for (i = 0; i < this.state.theResponses.length; i++) {
-      if (this.state.theResponses[i] === this.state.theQuestions[i].answer) {
-        score++;
-=======
     for (i = 0; i < this.state.theQuestions.length; i++) {
       if (this.state.theQuestions[i].answer !== undefined) {
         if (this.state.theResponses[i] === this.state.theQuestions[i].answer) {
           score++;
         }
->>>>>>> a7bd3916fbf65808a5ae10a2d5270367c03929a2
       }
     }
 
@@ -103,7 +92,6 @@ class GameModeScreen extends React.Component {
 
   render() {
     return (
-<<<<<<< HEAD
       <View style={{flex: 1, alignItems: 'center'}}>
         <SafeAreaView style={{alignItems: 'center'}}>
           <Text style={{color: 'blue', paddingBottom: 20}}>
@@ -116,16 +104,6 @@ class GameModeScreen extends React.Component {
               <Text style={{color: 'red', paddingBottom: 10}}>
                 Time remaining: {this.state.testTimer / 1000} seconds
               </Text>
-=======
-      <View style={{ flex: 1, alignItems: 'center' }}>
-
-        <SafeAreaView style={{ alignItems: 'center' }}>
-          <Text style={{ color: 'blue', paddingBottom: 20 }}>{this.state.mode}player Quiz about {this.state.title}</Text>
-
-          <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }}>
-            <View style={{ alignItems: 'center' }}>
-              <Text style={{ color: 'red', paddingBottom: 10 }}>Time remaining: {this.state.testTimer / 1000} seconds</Text>
->>>>>>> a7bd3916fbf65808a5ae10a2d5270367c03929a2
 
               <FlatList
                 data={this.state.theQuestions}
@@ -138,79 +116,68 @@ class GameModeScreen extends React.Component {
                         flex: 1,
                         width: 360,
                         flexDirection: 'column',
-                        backgroundColor: 'black',
+                        backgroundColor: '#FF595E',
                       }}>
-<<<<<<< HEAD
-                      <Text style={{color: 'white', fontSize: 15}}>
+                      <Text style={{color: 'white', fontSize: 25}}>
                         {item.prompt}
                       </Text>
 
                       <TouchableOpacity
                         onPress={() => this._selectChoice(0, index)}>
-                        <Text style={{color: 'white'}}>
+                        <Text style={styles.answerChoices}>
                           A. {item.choices[0]}
                         </Text>
-=======
-
-                      <Text style={{ color: 'white', fontSize: 15 }}>{item.prompt}</Text>
-
-                      <TouchableOpacity onPress={() => this._selectChoice(0, index)}>
-                        <Text style={{ color: 'white' }}>A. {item.choices[0]}</Text>
->>>>>>> a7bd3916fbf65808a5ae10a2d5270367c03929a2
                       </TouchableOpacity>
                       <TouchableOpacity
                         onPress={() => this._selectChoice(1, index)}>
-                        <Text style={{color: 'white'}}>
+                        <Text style={styles.answerChoices}>
                           B. {item.choices[1]}
                         </Text>
                       </TouchableOpacity>
                       <TouchableOpacity
                         onPress={() => this._selectChoice(2, index)}>
-                        <Text style={{color: 'white'}}>
+                        <Text style={styles.answerChoices}>
                           C. {item.choices[2]}
                         </Text>
                       </TouchableOpacity>
                       <TouchableOpacity
                         onPress={() => this._selectChoice(3, index)}>
-                        <Text style={{color: 'white'}}>
+                        <Text style={styles.answerChoices}>
                           D. {item.choices[3]}
                         </Text>
                       </TouchableOpacity>
 
-<<<<<<< HEAD
-                      <Text style={{color: 'blue'}}>
-                        Response= {item.choices[this.state.theResponses[index]]}
-                      </Text>
-=======
-                      <View style={{ flexDirection: 'row' }}>
-                        <TouchableOpacity onPress={() => {
-                          this.state.hidden[index] = !this.state.hidden[index];
-                        }
-                        }>
-                          <Text style={{ color: 'white' }}>See hint... </Text>
+                      <View style={{flexDirection: 'row'}}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            this.state.hidden[index] = !this.state.hidden[
+                              index
+                            ];
+                          }}>
+                          <Text style={styles.answerChoices}>See hint... </Text>
                         </TouchableOpacity>
-                        {this.state.hidden[index] &&
+                        {this.state.hidden[index] && (
                           <View>
-                            <Text style={{ color: 'white', opacity: .3 }}> = {item.choices[item.answer]}</Text>
+                            <Text style={{color: 'white', opacity: 0.3}}>
+                              {' '}
+                              = {item.choices[item.answer]}
+                            </Text>
                           </View>
-                        }
+                        )}
                       </View>
 
-                      <Text style={{ color: 'blue' }}>Response= {item.choices[this.state.theResponses[index]]}</Text>
->>>>>>> a7bd3916fbf65808a5ae10a2d5270367c03929a2
+                      <Text style={{color: 'white'}}>
+                        Response= {item.choices[this.state.theResponses[index]]}
+                      </Text>
 
-                      <View style={{height: 2, backgroundColor: 'blue'}} />
+                      <View style={{height: 2, backgroundColor: 'white'}} />
                     </View>
                   );
                 }}
                 keyExtractor={(item, index) => item.prompt}
               />
             </View>
-<<<<<<< HEAD
             <Button title="submit" onPress={this._onSubmit} />
-=======
-            <Button title='submit' onPress={this._onSubmit} />
->>>>>>> a7bd3916fbf65808a5ae10a2d5270367c03929a2
           </View>
         </SafeAreaView>
       </View>
@@ -221,11 +188,9 @@ class GameModeScreen extends React.Component {
     clearInterval(this._interval);
     this.state.removeListener;
   }
-<<<<<<< HEAD
-}
-=======
->>>>>>> a7bd3916fbf65808a5ae10a2d5270367c03929a2
 
+
+}
 const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: Colors.lighter,
@@ -245,6 +210,11 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '600',
     color: Colors.black,
+  },
+  answerChoices: {
+    color: 'white',
+    fontSize: 20,
+    fontFamily: 'Avenir-Medium',
   },
   sectionDescription: {
     marginTop: 8,

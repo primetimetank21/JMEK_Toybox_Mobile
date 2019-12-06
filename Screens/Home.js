@@ -1,5 +1,13 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, ScrollView, View} from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  YellowBox,
+  View,
+} from 'react-native';
 import {Header, Left, Body, Title, Right} from 'native-base';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
@@ -8,7 +16,7 @@ import {Avatar, ListItem} from 'react-native-elements';
 import {CardList} from './Components/CardList';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 // import { Header } from 'react-navigation-stack';
-
+console.disableYellowBox = true;
 const list = [
   {
     title: 'Cars',
@@ -56,40 +64,41 @@ class HomeScreen extends React.Component {
     this.state = {
       userGeneratedCategories: [],
       refresh: true,
-    }
-
+    };
   }
 
   _refresh = async () => {
-    this.setState({ userGeneratedCategories: [] })
-    this.unsubscribe = await firebase.firestore().collection('user categories').get().then((snapShot) => {
-      snapShot.forEach(doc => {
-        console.log(doc.id)
-        this.state.userGeneratedCategories.push(doc.id);
+    this.setState({userGeneratedCategories: []});
+    this.unsubscribe = await firebase
+      .firestore()
+      .collection('user categories')
+      .get()
+      .then(snapShot => {
+        snapShot.forEach(doc => {
+          console.log(doc.id);
+          this.state.userGeneratedCategories.push({
+            title: doc.id,
+            picture: '',
+            createdBy: doc.data().username,
+          });
+        });
+        console.log('this.state.cates= ');
+        for (elm in this.state.userGeneratedCategories) {
+          console.log(this.state.userGeneratedCategories[elm]);
+        }
+      })
+      .then(() => {
+        this.setState({refresh: true});
       });
-      console.log('this.state.cates= ')
-      for (elm in this.state.userGeneratedCategories) {
-        console.log(this.state.userGeneratedCategories[elm]);
-      }
-
-    }).then(() => {
-
-      this.setState({ refresh: true })
-
-    })
-
-
-  }
+  };
   componentDidMount() {
-
     if (this.state.refresh === true) {
-      this.setState({ refresh: false })
+      this.setState({refresh: false});
     }
 
     if (this.state.userGeneratedCategories.length === 0) {
       this._refresh();
     }
-
   }
   render() {
     return (
@@ -104,14 +113,17 @@ class HomeScreen extends React.Component {
             justifyContent: 'center',
             paddingBottom: 30,
           }}>
-          <Body style={{justifyContent: 'center'}}>
-            <Title style={styles.font}>Home</Title>
-          </Body>
+          <View style={{justifyContent: 'center'}}>
+            <TouchableOpacity onPress={() => this._refresh()}>
+              <Title style={{fontSize: 30, fontFamily: 'AvenirNextCondensed-Bold'}}>Toybox</Title>
+            </TouchableOpacity>
+            </View>
 
-          <Right style={{}}>
-            <Avatar //style={{ flex:1 }}
+          <Right style={{marginTop: 30, marginRight: 20}}>
+            <Avatar 
+            overlayContainerStyle={{backgroundColor: '#29AAA9'}}//style={{ flex:1 }}
               rounded
-              medium
+              size='medium'
               title="Prof"
               onPress={() => this.props.navigation.navigate('Profile')}
             />
@@ -119,32 +131,31 @@ class HomeScreen extends React.Component {
         </View>
 
         <ScrollView style={{flex: 1}}>
-        <View style={{ alignItems: 'center' }}>
-            <Text style={{ fontSize: 30, fontFamily: 'Avenir-Heavy' }}>
+          <View style={{alignItems: 'center'}}>
+            <Text style={{fontSize: 30, fontFamily: 'Avenir-Heavy'}}>
               Categories
-              </Text>
+            </Text>
           </View>
           <View>
             <CardList navigation={this.props.navigation} cards={list} />
-            
+            <View style={{alignItems: 'center'}}>
+            <Text style={{fontSize: 30, justifyContent: 'center', fontFamily: 'Avenir-Heavy'}}>
+              User Challenges
+            </Text>
+            </View>
+            <CardList
+              navigation={this.props.navigation}
+              cards={this.state.userGeneratedCategories}
+            />
           </View>
         </ScrollView>
-        <View style={{ alignItems: 'center' }}>
-              <Text style={{ fontSize: 30, fontFamily: 'Avenir-Heavy' }}>User Challenges</Text>
-            </View>
-        <ScrollView {{flex: 1}}>
-        <CardList navigation={this.props.navigation} cards={this.userGeneratedCategories} />
-        </ScrollView>
-
       </SafeAreaView>
-
-            
-  )}
+    );
+  }
 
   componentWillUnmount() {
     this.unsubscribe;
   }
-
 }
 
 export default HomeScreen;
