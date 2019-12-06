@@ -150,7 +150,8 @@ class ProfileScreen extends React.Component {
               size="xlarge"
               overlayContainerStyle={{backgroundColor: '#FF595E'}}
               rounded
-              title="JD"
+              titleStyle={{ fontSize:45 }}
+              title="Update"
             />
           </TouchableOpacity>
 
@@ -162,7 +163,7 @@ class ProfileScreen extends React.Component {
             <Text
               style={{
                 fontFamily: 'Avenir-Heavy',
-                color: '#29AAA9',
+                color: 'red',
                 fontSize: 30,
                 marginTop: 15,
               }}>
@@ -198,14 +199,14 @@ class ProfileScreen extends React.Component {
           </Text>
         )}
 
-        {/* <TouchableOpacity
+        <TouchableOpacity
           style={{alignItems: 'center', paddingTop: 10}}
           onPress={() => this.props.navigation.navigate('Leaderboard')}>
           <Text
             style={{fontFamily: 'Avenir-Heavy', fontSize: 20, color: 'blue'}}>
             See Leaderboard
           </Text>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
 
         <View style={{flex: 3}}>
           <Text

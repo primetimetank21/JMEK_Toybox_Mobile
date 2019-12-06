@@ -15,7 +15,6 @@ import 'firebase/firestore';
 import {Avatar, ListItem} from 'react-native-elements';
 import {CardList} from './Components/CardList';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-// import { Header } from 'react-navigation-stack';
 console.disableYellowBox = true;
 const list = [
   {
@@ -82,7 +81,7 @@ class HomeScreen extends React.Component {
             createdBy: doc.data().username,
           });
         });
-        console.log('this.state.cates= ');
+        console.log('this.state.categories= ');
         for (elm in this.state.userGeneratedCategories) {
           console.log(this.state.userGeneratedCategories[elm]);
         }
@@ -103,25 +102,24 @@ class HomeScreen extends React.Component {
   render() {
     return (
       <SafeAreaView
-        style={{flex: 1, alignContent: 'center', justifyContent: 'center'}}>
+        style={{ flex: 1, alignContent: 'center', justifyContent: 'center'}}>
         <View
           style={{
-            flex: 0.05,
+            flex: 0.075,
             flexDirection: 'row',
             alignContent: 'center',
             alignItems: 'center',
             justifyContent: 'center',
-            paddingBottom: 30,
+            paddingBottom: 10,
           }}>
-          <View style={{justifyContent: 'center'}}>
+          <Left/>
             <TouchableOpacity onPress={() => this._refresh()}>
-              <Title style={{fontSize: 30, fontFamily: 'AvenirNextCondensed-Bold'}}>Toybox</Title>
+              <Title style={{fontSize: 37.9, fontFamily: 'AvenirNextCondensed-Bold'}}>Toybox</Title>
             </TouchableOpacity>
-            </View>
 
-          <Right style={{marginTop: 30, marginRight: 20}}>
+          <Right style={{paddingBottom:20, marginTop: 30, marginRight: 20}}>
             <Avatar 
-            overlayContainerStyle={{backgroundColor: '#29AAA9'}}//style={{ flex:1 }}
+            overlayContainerStyle={{backgroundColor: 'red'}}
               rounded
               size='medium'
               title="Prof"
